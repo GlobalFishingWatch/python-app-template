@@ -1,0 +1,19 @@
+services:
+  gcloud:
+    image: google/cloud-sdk:latest
+    volumes:
+      - "gcp:/root/.config/"
+    entrypoint: gcloud
+
+  dev:
+    build:
+      context: .
+      target: dev
+    volumes:
+      - ".:/opt/project"
+      - "gcp:/root/.config/"
+    entrypoint: /bin/bash
+
+volumes:
+  gcp:
+    external: true
