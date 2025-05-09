@@ -15,7 +15,20 @@
   </a>
 </p>
 
-A template for python (dockerized) applications.
+A template for python applications.
+
+**Features**:
+* :white_check_mark: Standard Python project structure & packaging.
+* :white_check_mark: Dockerization.
+* :white_check_mark: Dependency management with [pip-tools].
+* :white_check_mark: Tools for quality checks: documentation, [PEP8], typehints, codespell.
+* :white_check_mark: (Optional) pre-commit hooks to enforce automatic quality checks.
+* :white_check_mark: Continuous Integration (CI) workflows (GitHub Actions).
+* :white_check_mark: Continuous Deployment (CI) workflows (Google Cloud Build).
+* :white_check_mark: Makefile with shortcuts to increase development speed.
+* :white_check_mark: README badges with project information.
+* :white_check_mark: Development workflow documentation.
+
 
 [Apache Beam]: https://beam.apache.org
 [codecov]: https://about.codecov.io
