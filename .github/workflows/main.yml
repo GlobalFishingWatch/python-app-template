@@ -2,7 +2,7 @@ name: main
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, develop]
   pull_request:
 
 jobs:
@@ -60,6 +60,8 @@ jobs:
         run: make docker-test-ci
 
       - name: Upload coverage reports to Codecov
+        # Only upload coverage when pushing to main or develop
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
