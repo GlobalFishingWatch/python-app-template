@@ -22,12 +22,13 @@ A template for python applications.
 * :white_check_mark: Dependency management with [pip-tools].
 * :white_check_mark: Tools for quality checks: documentation, [PEP8], typehints, codespell.
 * :white_check_mark: **[Optional]** pre-commit hooks to enforce automatic quality checks.
-* :white_check_mark: Dockerization.
+* :white_check_mark: Dockerization with focus in image size optimization.
 * :white_check_mark: Continuous Integration (CI) workflows (GitHub Actions).
 * :white_check_mark: Continuous Deployment (CI) workflows (Google Cloud Build).
 * :white_check_mark: Makefile with shortcuts to increase development speed.
 * :white_check_mark: README badges with project information.
 * :white_check_mark: Development workflow documentation.
+* :white_check_mark: Support for [Apache Beam] integrated pipelines.
 
 
 [Apache Beam]: https://beam.apache.org

@@ -1,29 +1,31 @@
 # ---------------------------------------------------------------------------------------
 # BASE IMAGE
 # ---------------------------------------------------------------------------------------
-FROM python:3.12.10-slim AS base
-
-# Configure the working directory
-RUN mkdir -p /opt/project
-WORKDIR /opt/project
+FROM python:3.12.10-slim-bookworm AS base
 
 # Setup a volume for configuration and authtentication.
 VOLUME ["/root/.config"]
 
-# Update system and install build tools.
-RUN apt-get update && apt-get install -y gcc g++ build-essential
+# Update system and install build tools. Remove unneeded stuff afterwards.
+# Upgrade PIP.
+# Create working directory.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc g++ build-essential && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --upgrade pip && \
+    mkdir -p /opt/project
 
-# Upgrade PIP
-RUN pip install --upgrade pip
+# Set working directory.
+WORKDIR /opt/project
 
 # ---------------------------------------------------------------------------------------
 # DEPENDENCIES IMAGE (installed project dependencies)
 # ---------------------------------------------------------------------------------------
-# We do this first so when we modify code while development,
-# this layer is reused from cache.
+# We do this first so when we modify code while development, this layer is reused
+# from cache and only the layer installing the package exceutes again.
 FROM base AS deps
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # ---------------------------------------------------------------------------------------
 # Apache Beam integration IMAGE
@@ -43,7 +45,7 @@ ENTRYPOINT ["/opt/apache/beam/boot"]
 FROM deps AS prod
 
 COPY . /opt/project
-RUN pip install .
+RUN pip install . && rm -rf /root/.cache/pip
 
 # ---------------------------------------------------------------------------------------
 # DEVELOPMENT IMAGE (editable install and development tools)
