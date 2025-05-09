@@ -19,10 +19,10 @@ A template for python applications.
 
 **Features**:
 * :white_check_mark: Standard Python project structure & packaging.
-* :white_check_mark: Dockerization.
 * :white_check_mark: Dependency management with [pip-tools].
 * :white_check_mark: Tools for quality checks: documentation, [PEP8], typehints, codespell.
-* :white_check_mark: (Optional) pre-commit hooks to enforce automatic quality checks.
+* :white_check_mark: **[Optional]** pre-commit hooks to enforce automatic quality checks.
+* :white_check_mark: Dockerization.
 * :white_check_mark: Continuous Integration (CI) workflows (GitHub Actions).
 * :white_check_mark: Continuous Deployment (CI) workflows (Google Cloud Build).
 * :white_check_mark: Makefile with shortcuts to increase development speed.
@@ -150,10 +150,14 @@ make test
 
 <div align="justify">
 
-The [requirements.txt] contains all transitive dependencies pinned to specific versions.
-This file is compiled automatically with [pip-tools], based on [pyproject.toml].
+The [requirements.txt] file contains all transitive dependencies pinned to specific versions.
+It is automatically generated using [pip-tools],
+based on the dependencies specified in [pyproject.toml].
+This process ensures reproducibility,
+allowing the application to run consistently across different environments.
 
-Use [pyproject.toml] to specify high-level dependencies with some restrictions.
+Use [pyproject.toml] to define high-level dependencies with flexible version constraints
+(e.g., ~=1.2, >=1.0, <2.0, ...).
 Do not modify [requirements.txt] manually.
 
 To re-compile dependencies, just run
@@ -161,15 +165,15 @@ To re-compile dependencies, just run
 make reqs
 ```
 
-If you want to upgrade all dependencies to latest available versions
-(compatible with restrictions declared), just run:
+If you want to upgrade all dependencies to latest compatible versions, just run:
 ```shell
 make reqs-upgrade
 ```
 </div>
 
 > [!NOTE]
-> Remember that if you change the requirements, you need to rebuild the docker image in order to use it locally.
+> Remember that if you change the requirements.txt,
+you need to rebuild the docker image in order to use it locally.
 
 ### How to deploy
 
