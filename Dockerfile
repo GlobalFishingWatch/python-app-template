@@ -22,7 +22,7 @@ WORKDIR /opt/project
 # DEPENDENCIES IMAGE (installed project dependencies)
 # ---------------------------------------------------------------------------------------
 # We do this first so when we modify code while development, this layer is reused
-# from cache and only the layer installing the package exceutes again.
+# from cache and only the layer installing the package executes again.
 FROM base AS deps
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -45,7 +45,9 @@ ENTRYPOINT ["/opt/apache/beam/boot"]
 FROM deps AS prod
 
 COPY . /opt/project
-RUN pip install . && rm -rf /root/.cache/pip
+RUN pip install . && \
+    rm -rf /root/.cache/pip && \
+    rm -rf /opt/project/*
 
 # ---------------------------------------------------------------------------------------
 # DEVELOPMENT IMAGE (editable install and development tools)
@@ -55,3 +57,12 @@ FROM deps AS dev
 
 COPY . /opt/project
 RUN pip install -e .[lint,test,dev,build]
+
+# ---------------------------------------------------------------------------------------
+# TEST IMAGE (This checks that package is properly installed in prod image)
+# ---------------------------------------------------------------------------------------
+FROM prod AS test
+
+# TODO: install test dependencies declared in pyproject.toml w/o installing package again.
+RUN pip install pytest pytest-cov pytest-mock
+COPY ./tests /opt/project/tests

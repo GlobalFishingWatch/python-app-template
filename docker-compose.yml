@@ -14,6 +14,13 @@ services:
       - "gcp:/root/.config/"
     entrypoint: /bin/bash
 
+  test:
+    # Runs tests using the production Docker image.
+    # Intended to be executed in the GitHub CI environment.
+    build:
+      context: .
+      target: test
+    entrypoint: "pytest -v"
 volumes:
   gcp:
     external: true

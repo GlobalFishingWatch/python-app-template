@@ -2,18 +2,13 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-# Build system metadata.
-[tool.setuptools]
-include-package-data = true
-
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["python_app_template", "python_app_template.*"]
 exclude = ["tests*"]
 namespaces = false
 
 [tool.setuptools.package-data]
-'src' = ['src/**/assets/**/*']
+"assets" = ["*.json"]
 
 [project]
 name = "python-app-template"
@@ -29,10 +24,11 @@ maintainers = [
 ]
 classifiers = [
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+
 ]
 requires-python = ">= 3.9"
 dependencies = [
@@ -151,8 +147,7 @@ disallow_untyped_calls = false
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = ["tests"]
-asyncio_default_fixture_loop_scope = "function"
-asyncio_mode = "auto"
+addopts = "-v --cov=src --cov-report=term-missing"
 
 [tool.coverage.run]
 source = ["src", "tests"]
@@ -161,7 +156,7 @@ parallel = true
 context = "${CONTEXT}"
 
 [tool.coverage.report]
-precision = 2
+precision = 0
 skip_empty = true
 ignore_errors = false
 show_missing = true

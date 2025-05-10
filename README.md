@@ -8,7 +8,7 @@
     <img src="https://codecov.io/gh/GlobalFishingWatch/python-app-template/graph/badge.svg?token=uZTb6EphP8"/>
   </a>
   <a>
-    <img alt="Python versions" src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue">
+    <img alt="Python versions" src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue">
   </a>
   <a>
     <img alt="Last release" src="https://img.shields.io/github/v/release/GlobalFishingWatch/python-app-template">
@@ -57,6 +57,7 @@ A template for python applications.
 [Dockerfile]: Dockerfile
 [LICENSE]: LICENSE
 [Makefile]: Makefile
+[MANIFEST.in]: MANIFEST.in
 [pre-commit hooks]: .pre-commit-config.yaml
 [pyproject.toml]: pyproject.toml
 [pytest.ini]: pytest.ini
@@ -72,7 +73,6 @@ The following table provides a short description of each file in the repository:
 
 | File                    | Description                                                                     |
 | ------------------------| -----------------------------------------------------------------               |
-|[.coveragerc]          	| Configuration for coverage reports [used by pytest-cov].                        |
 |[.flake8]   					    | Configuration for [PEP8] checker.				                                        |
 |[.gitignore]  					  | List of files and directories to be ignored by git.                             |
 |[activate_venv.sh]       | Simple shortcut to enter virtual environment.                                   |
@@ -81,10 +81,10 @@ The following table provides a short description of each file in the repository:
 |[docker-compose.yml]     | Configuration for [docker compose].                                             |
 |[Dockerfile]          		| Instructions for building the Docker image.                                     |
 |[LICENSE]             		| The software license.                                                           |
-|[Makefile]               | A set of commands to simplify development.                                      |
+|[Makefile]               | Set of commands to simplify development.                                        |
+|[MANIFEST.in]            | Set of patterns to include or exclude files from installed package.             |
 |[pre-commit hooks]       | Configuration to automate software quality checks.                              |
 |[pyproject.toml]         | Modern Python packaging configuration file.                                     |
-|[pytest.ini]             | Configuration for [pytest].                                                     |
 |[requirements.txt]       | Full set of dependencies pinned to specific versions.                           |
 |[README.md]              | This file.					                                                            |
 |[setup.py]             	| Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
