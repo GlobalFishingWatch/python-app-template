@@ -34,27 +34,24 @@ A template for Python applications.
 [Apache Beam]: https://beam.apache.org
 [codecov]: https://about.codecov.io
 [docker compose]: https://docs.docker.com/compose/install/linux/
-[docker official instructions]: https://docs.docker.com/engine/install/
-[git-flow]: https://nvie.com/posts/a-successful-git-branching-model/
 [Google BigQuery]: https://cloud.google.com/bigquery
 [Google Dataflow]: https://cloud.google.com/products/dataflow?hl=en
-[How to Write a Git Commit Message]: https://cbea.ms/git-commit/
-[interactive rebase]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 [Markdown alerts]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
 [mermaid diagram]: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
 [PEP8]: https://peps.python.org/pep-0008/
 [pip-tools]: https://pip-tools.readthedocs.io/en/stable/
 [pre-commit]: https://pre-commit.com
 [pytest]: https://docs.pytest.org/en/stable/
-[Semantic Versioning]: https://semver.org
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
 
 [cli.py]: src/python_app_template/cli.py
+[docs/contributing]: docs/contributing
 [examples]: examples/
 
 [.coveragerc]: .coveragerc
 [.flake8]: .flake8
 [.gitignore]: .gitignore
+[.pre-commit-config.yaml]: .pre-commit-config.yaml
 [activate_venv.sh]: activate-venv.sh
 [cloudbuild.yaml]: cloudbuild.yaml
 [codecov.yml]: codecov.yml
@@ -64,7 +61,6 @@ A template for Python applications.
 [LICENSE]: LICENSE
 [Makefile]: Makefile
 [MANIFEST.in]: MANIFEST.in
-[pre-commit hooks]: .pre-commit-config.yaml
 [pyproject.toml]: pyproject.toml
 [pytest.ini]: pytest.ini
 [requirements.txt]: requirements.txt
@@ -72,86 +68,107 @@ A template for Python applications.
 [README.md]: README.md
 [setup.py]: setup.py
 
+
+[Preparing the environment]: docs/contributing/ENVIRONMENT.md
+[Making changes]: docs/contributing/MAKING-CHANGES.md
+[Git Workflow]: docs/contributing/GIT-WORKFLOW.md
+[Managing dependencies]: docs/contributing/DEPENDENCIES.md
+[How to deploy]: docs/contributing/HOW-TO-DEPLOY.md
+
 ## Introduction
 
 <div align="justify">
 
-_Write here the motivation for this application._
-_When applicable, cite relevant articles for the curious reader._
+_Write the motivation for this application here._
+_When applicable, include citations for relevant articles or resources for further reading._
 
-In this case,
-the motivation for this repository is the need of a robust and documented
-repository template for Python applications,
-which are used at least in all the GFW data pipelines.
+The motivation for this repository is to provide a robust,
+well-documented template for Python applications,
+including but not limited to GFW data pipelines.
 
-Some goals of this template are:
-* Reduce the overhead of creating a new dockerized python application.
-* Reduce the work needed to be done when moving prototypes to production.
-* Define standards for development accross our data pipelines.
+Goals of this template include:
+* Reducing the overhead of creating a new Dockerized Python application.
+* Minimizing the effort required to transition prototypes to production.
+* Establishing consistent development standards across projects.
 
 ## Usage 
 
-_Write here the relevant documentation on how to use this application.
-Ideally, split it into sections_.
+_Write the relevant documentation on how to use this application here.
+Ideally, organize it into sections_.
 
-_Assume in this section you have published a package in PYPI or docker image in the registry._
+_Assume in this section that a package has been published in PYPI
+or a Docker image to the registry._
 
-_You can use [Markdown alerts] to highlight stuff._
+_Use [Markdown alerts] to highlight important information._
 
 </div>
 
 Example:
 > [!CAUTION]
-  Using HTML sections in the README break the rendering of [Markdown alerts] alerts.
-  Make sure you put them outside `<div></div>` sections for example.
+  Using HTML sections breaks the rendering of [Markdown alerts] alerts.
+  To avoid this, place them outside `<div></div>` sections, for example.
 
-<div  align="justify">
+In this case,
+it can be useful to show a short description of each file in the root of the repository template:
 
-In this case, it can be useful to show a short description of each file in the root of the repository template:
+<div  align="center">
+
 | File                    | Description                                                                     |
 | ------------------------| -----------------------------------------------------------------               |
 |[.flake8]                | Configuration for [PEP8] checker.                                               |
 |[.gitignore]             | List of files and directories to be ignored by git.                             |
+|[.pre-commit-config.yaml]| Configuration to automate software quality checks.                              |
 |[activate_venv.sh]       | Simple shortcut to enter virtual environment.                                   |
 |[cloudbuild.yaml]        | Configuration to build and publish docker images in Google Cloud.               |
 |[codecov.yml]            | Configuration for [codecov] GitHub integration.                                 |
 |[docker-compose.yml]     | Configuration for [docker compose].                                             |
 |[Dockerfile]             | Instructions for building the Docker image.                                     |
-|[GIT-WORKFLOW.md]        | Git workflow definition for this repository.                                    |
 |[LICENSE]                | The software license.                                                           |
 |[Makefile]               | Set of commands to simplify development.                                        |
 |[MANIFEST.in]            | Set of patterns to include or exclude files from installed package.             |
-|[pre-commit hooks]       | Configuration to automate software quality checks.                              |
 |[pyproject.toml]         | Modern Python packaging configuration file.                                     |
 |[requirements.txt]       | Full set of compiled production dependencies (pinned to specific versions).     |
 |[requirements-test.txt]  | High level test dependencies needed to test the installed package.              |
 |[README.md]              | This file.                                                                      |
 |[setup.py]               | Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
 
+</div>
+
+<div  align="justify">
+
 ### Using the CLI
 
-_Write here instructions on how to use the CLI of the application._
+_Write instructions on how to use the CLI of the application here._
 
+#### Config file example
 
-### Config file example
+_Provide an example of an input configuration file._
 
-_Expose an input config file example._
+### [Optional] Output schema.
 
-### Output schema.
+_Discuss any relevant details about the schema.
+Provide a link to the schema definition._
 
-_Discuss anything relevant about the about schema. Put a link to the schema definition._
+### [Optional] Data persistence pattern
 
-### Data persistence pattern
+_Explain the data persistence pattern used in this application._
 
-_Expose what is the data persistence pattern for this application._
+## How to Contribute
 
-## Implementation details
+Please read the guidelines in [docs/contributing] folder:
+1. [Preparing the environment]
+2. [Git Workflow]
+3. [Making changes]
+4. [Managing dependencies]
+5. [How to deploy]
 
-_In here you can describe implementation details, more targeted to developers._
+## [Optional] Implementation details
 
-### Most relevant modules [Optional]
+_This section is for describing implementation details, primarily for developers._
 
-_Here you can describe the most relevant modules of your app._
+### [Optional] Most relevant modules
+
+_Use this section to describe the most important modules of your application._
 
 Example:
 <div align="center">
@@ -162,127 +179,16 @@ Example:
 
 </div>
 
-### Flow chart [Optional]
+### [Optional] Flow chart
 
-_Here you can show a [mermaid diagram] explaining the implementation._
+_Use this section to display a [mermaid diagram] that explains the implementation._
 
-## Development
+## [Optional] References
 
-Install Docker Engine using the [docker official instructions] (avoid snap packages)
-and the [docker compose] plugin. No other dependencies are required.
+_Provide any relevant references to support the explanations in this README._
 
-### Preparing the environment
+Examples:
 
-1. First, clone the repository.
-```shell
-git clone https://github.com/GlobalFishingWatch/python-app-template.git
-```
-
-2. Make sure you can build the docker image:
-```shell
-make docker-build
-```
-
-3. In order to be able to connect to BigQuery, authenticate and configure the project:
-```shell
-make docker-gcp
-```
-
-4. Create virtual environment and activate it:
-```shell
-make venv
-./.venv/bin/activate
-```
-
-5. Install dependencies and the python package:
-```shell
-make install
-```
-
-6. (Optional) Install [pre-commit] hooks:
-```shell
-make hooks
-```
-This step is highly recommended to maintain the quality of the code
-and avoid accumulating technical debt, specifically in terms of documentation, [PEP8], spelling, type-hinting.
-If this is too rigid for your current workflow,
-at least try to frequently use the provided commands in the [Makefile]:
-`[format, lint, codespell, typecheck]`.
-
-[PEP8] checks will be enforced in the GitHub CI.
-
-7. Make sure you can run unit tests:
-```shell
-make test
-```
-</div>
-
-
-> [!NOTE]
-> Alternatively,
-  you can perform all the development inside a docker container
-  without the need of installing dependencies in a virtual environment.
-  You can use `make docker-shell` to enter a docker container.
-
-### Making changes
-
-Create a branch and a Pull Request (PR) following the workflow defined in [GIT-WORKFLOW.md].
-
-**When working on a branch, try to follow this guidelines:**
-- Write clear commit messages. See [How to Write a Git Commit Message].
-- Use [interactive rebase] to maintain the commit history of your branch clean.
-- If you are not using [pre-commit] hooks,
-  use as much as you can the provided commands in [Makefile] to maintain quality: `[format, lint, codespell, typecheck]`. 
-- Add unit tests for each piece of code.
-  * Don't connect to external services when running unit tests. Use mocks when needed.
-  * Make sure unit tests run as fast as possible. 
-
-**When submitting a PR, please ensure it meets the following criteria:**
-- The PR targets the correct base branch (this depdends on which git workflow you are using).
-- The title and body provide a clear and concise explanation of **what** the PR does and **why** it's necessary.
-- The body contains a link the related JIRA ticket. This allows the integration with the ticket with the PR. 
-
-### Updating dependencies
-
-<div align="justify">
-
-The [requirements.txt] file contains all transitive dependencies pinned to specific versions.
-It is automatically generated using [pip-tools],
-based on the dependencies specified in [pyproject.toml].
-This process ensures reproducibility,
-allowing the application to run consistently across different environments.
-
-Use [pyproject.toml] to define high-level dependencies with flexible version constraints
-(e.g., ~=1.2, >=1.0, <2.0, ...).
-Do not modify [requirements.txt] manually.
-
-To re-compile dependencies, just run
-```shell
-make reqs
-```
-
-If you want to upgrade all dependencies to latest compatible versions, just run:
-```shell
-make reqs-upgrade
-```
-</div>
-
-> [!NOTE]
-> Remember that if you change the [requirements.txt],
-you need to rebuild the docker image (`make docker-build`) in order to use it locally.
-
-### How to deploy
-
-A Google Cloud build that publishes a Docker image will be triggered in the following cases:  
-- Pushing a commit to the `main` or `develop` branches (this includes merges).  
-- Creating a tag.
-
-
-## References [Optional]
-
-_Provide useful references for the explanations contained in this README._
-
-Example:
 <a id="1">[1]</a> Welch H., Clavelle T., White T. D., Cimino M. A., Van Osdel J., Hochberg T., et al. (2022). Hot spots of unseen fishing vessels. Sci. Adv. 8 (44), eabq2109. doi: 10.1126/sciadv.abq2109
 
 <a id="1">[2]</a> J. H. Ford, B. Bergseth, C. Wilcox, Chasing the fish oil—Do bunker vessels hold the key to fisheries crime networks? Front. Mar. Sci. 5, 267 (2018).
