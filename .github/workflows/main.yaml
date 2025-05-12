@@ -42,7 +42,8 @@ jobs:
         # In that case coverage source must be properly indicated (inside site-packages).
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[test]
+          pip install .
+          pip install -r requirements-test.txt
     
       - name: Test with pytest
         run: |

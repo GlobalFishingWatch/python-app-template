@@ -60,13 +60,6 @@ lint = [
   "types-PyYAML",              # MyPy stubs for pyyaml.
 ]
 
-# Testing tools
-test = [
-  "pytest~=8.3",            # Core testing framework.
-  "pytest-cov~=6.0",        # Coverage plugin for pytest.
-  "pytest-mock~=3.14",      # Mocking plugin for pytest.
-]
-
 # Development workflow and tools
 dev = [
   "pre-commit~=4.2",          # Framework for managing pre-commit hooks.

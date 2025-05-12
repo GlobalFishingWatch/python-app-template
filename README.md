@@ -62,6 +62,7 @@ A template for python applications.
 [pyproject.toml]: pyproject.toml
 [pytest.ini]: pytest.ini
 [requirements.txt]: requirements.txt
+[requirements-test.txt]: requirements-test.txt
 [README.md]: README.md
 [setup.py]: setup.py
 
@@ -85,7 +86,8 @@ The following table provides a short description of each file in the repository:
 |[MANIFEST.in]            | Set of patterns to include or exclude files from installed package.             |
 |[pre-commit hooks]       | Configuration to automate software quality checks.                              |
 |[pyproject.toml]         | Modern Python packaging configuration file.                                     |
-|[requirements.txt]       | Full set of dependencies pinned to specific versions.                           |
+|[requirements.txt]       | Full set of compiled production dependencies (pinned to specific versions).     |
+|[requirements-test.txt]  | High level test dependencies needed to test the installed package.              |
 |[README.md]              | This file.					                                                            |
 |[setup.py]             	| Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
 

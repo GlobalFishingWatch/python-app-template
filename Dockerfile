@@ -63,6 +63,7 @@ RUN pip install -e .[lint,test,dev,build]
 # ---------------------------------------------------------------------------------------
 FROM prod AS test
 
-# TODO: install test dependencies declared in pyproject.toml w/o installing package again.
-RUN pip install pytest pytest-cov pytest-mock
 COPY ./tests /opt/project/tests
+COPY ./requirements-test.txt /opt/project/
+
+RUN pip install -r requirements-test.txt

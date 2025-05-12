@@ -58,7 +58,8 @@ venv:
 .PHONY: install  ## Install the package and dependencies for local development.
 install:
 	python -m pip install -U pip
-	python -m pip install -e .[lint,test,dev,build,docs]
+	python -m pip install -e .[lint,dev,build]
+	python -m pip install -r requirements-test.txt
 
 .PHONY: test  ## Run all unit tests exporting coverage.xml report.
 test:
