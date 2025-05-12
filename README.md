@@ -39,8 +39,10 @@ A template for python applications.
 [Google BigQuery]: https://cloud.google.com/bigquery
 [Google Dataflow]: https://cloud.google.com/products/dataflow?hl=en
 [How to Write a Git Commit Message]: https://cbea.ms/git-commit/
+[interactive rebase]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 [PEP8]: https://peps.python.org/pep-0008/
 [pip-tools]: https://pip-tools.readthedocs.io/en/stable/
+[pre-commit]: https://pre-commit.com
 [pytest]: https://docs.pytest.org/en/stable/
 [Semantic Versioning]: https://semver.org
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
@@ -55,6 +57,7 @@ A template for python applications.
 [codecov.yml]: codecov.yml
 [docker-compose.yml]: docker-compose.yml
 [Dockerfile]: Dockerfile
+[GIT-WORKFLOW.md]: GIT-WORKFLOW.md
 [LICENSE]: LICENSE
 [Makefile]: Makefile
 [MANIFEST.in]: MANIFEST.in
@@ -81,6 +84,7 @@ The following table provides a short description of each file in the repository:
 |[codecov.yml]            | Configuration for [codecov] GitHub integration.                                 |
 |[docker-compose.yml]     | Configuration for [docker compose].                                             |
 |[Dockerfile]          		| Instructions for building the Docker image.                                     |
+|[GIT-WORKFLOW.md]        | Git workflow definition for this repository.                                    |
 |[LICENSE]             		| The software license.                                                           |
 |[Makefile]               | Set of commands to simplify development.                                        |
 |[MANIFEST.in]            | Set of patterns to include or exclude files from installed package.             |
@@ -124,7 +128,7 @@ make venv
 make install
 ```
 
-6. (Optional) Install pre-commit hooks:
+6. (Optional) Install [pre-commit] hooks:
 ```shell
 make hooks
 ```
@@ -148,6 +152,24 @@ make test
   you can perform all the development inside a docker container
   without the need of installing dependencies in a virtual environment.
   You can use `make docker-shell` to enter a docker container.
+
+### Making changes
+
+Create a branch and a Pull Request (PR) following the workflow defined in [GIT-WORKFLOW.md].
+
+**When working on a branch, try to follow this guidelines:**
+- Write clear commit messages. See [How to Write a Git Commit Message].
+- Use [interactive rebase] to maintain the commit history of your branch clean.
+- If you are not using [pre-commit] hooks,
+  use as much as you can the provided commands in [Makefile] to maintain quality: `[format, lint, codespell, typecheck]`. 
+- Add unit tests for each piece of code.
+  * Don't connect to external services when running unit tests. Use mocks when needed.
+  * Make sure unit tests run as fast as possible. 
+
+**When submitting a PR, please ensure it meets the following criteria:**
+- The PR targets the correct base branch (this depdends on which git workflow you are using).
+- The title and body provide a clear and concise explanation of **what** the PR does and **why** it's necessary.
+- The body contains a link the related JIRA ticket. This allows the integration with the ticket with the PR. 
 
 ### Updating dependencies
 
@@ -175,8 +197,8 @@ make reqs-upgrade
 </div>
 
 > [!NOTE]
-> Remember that if you change the requirements.txt,
-you need to rebuild the docker image in order to use it locally.
+> Remember that if you change the [requirements.txt],
+you need to rebuild the docker image (`make docker-build`) in order to use it locally.
 
 ### How to deploy
 
