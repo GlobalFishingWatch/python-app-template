@@ -144,13 +144,15 @@ _Write instructions on how to use the CLI of the application here._
 
 _Provide an example of an input configuration file._
 
-### [Optional] Output schema.
+## Output schema.
 
+_**Optional**_.
 _Discuss any relevant details about the schema.
 Provide a link to the schema definition._
 
-### [Optional] Data persistence pattern
+## Data persistence pattern
 
+_**Optional**_.
 _Explain the data persistence pattern used in this application._
 
 ## How to Contribute
@@ -162,12 +164,14 @@ Please read the guidelines in [docs/contributing] folder:
 4. [Managing dependencies]
 5. [How to deploy]
 
-## [Optional] Implementation details
+## Implementation details
 
+_**Optional**_.
 _This section is for describing implementation details, primarily for developers._
 
-### [Optional] Most relevant modules
+### Most relevant modules
 
+_**Optional**_.
 _Use this section to describe the most important modules of your application._
 
 Example:
@@ -179,15 +183,17 @@ Example:
 
 </div>
 
-### [Optional] Flow chart
+### Flow chart
 
+_**Optional**_.
 _Use this section to display a [mermaid diagram] that explains the implementation._
 
-## [Optional] References
+## References
 
-_Provide any relevant references to support the explanations in this README._
+_**Optional**_.
+_Provide any relevant references to support the explanations in this README.
+Here we provide some examples._
 
-Examples:
 
 <a id="1">[1]</a> Welch H., Clavelle T., White T. D., Cimino M. A., Van Osdel J., Hochberg T., et al. (2022). Hot spots of unseen fishing vessels. Sci. Adv. 8 (44), eabq2109. doi: 10.1126/sciadv.abq2109
 
