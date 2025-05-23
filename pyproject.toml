@@ -8,7 +8,7 @@ exclude = ["tests*"]
 namespaces = false
 
 [tool.setuptools.package-data]
-"assets" = ["*.json"]
+"assets" = ["*"]
 
 [project]
 name = "python-app-template"

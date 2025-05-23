@@ -132,10 +132,10 @@ and incrementally builds upon the requirements of the previous stages.
      - **Usage**
    - Declare required dependencies in [pyproject.toml].
      Use the `dev` extra for development-only dependencies.
-   - Store data files (`.txt`, `.json`, `.csv`, etc.) in the `src/your_project/assets/` folder.
+   - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/your_project/assets/` directory.
 
 2. 🛠️ **Prototype**  
-   - Set up [branch protection rules] for `main` and `develop`.
+   - Set up [branch protection rules] for `main` and `develop` branches.
      - ☑️ Restrict deletions.
      - ☑️ Require a pull request before merging. 
        - ☑️ Require approvals.
@@ -144,9 +144,9 @@ and incrementally builds upon the requirements of the previous stages.
        - ☑️ Require branches to be up to date before merging.
      - ☑️ Block force pushes.
      - ☑️ Allowed merge methods: only Merge.
-   - Enforce the [Git Workflow].
-   - Configure Google Cloud triggers to publish the Docker image.
-   - Generate `requirements.txt` for Docker using:
+   - Enforce the [Git Workflow] to maintain consistent branching and collaboration practices.
+   - Set up Google Cloud Build triggers to automatically publish the Docker image upon merges.
+   - Re-compile `requirements.txt` for Docker using:
      ```
      make reqs
      ```
