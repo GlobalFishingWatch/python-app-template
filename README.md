@@ -32,6 +32,7 @@ A template for Python applications.
 
 
 [Apache Beam]: https://beam.apache.org
+[branch protection rules]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule
 [codecov]: https://about.codecov.io
 [docker compose]: https://docs.docker.com/compose/install/linux/
 [Google BigQuery]: https://cloud.google.com/bigquery
@@ -47,6 +48,14 @@ A template for Python applications.
 [cli.py]: src/python_app_template/cli.py
 [docs/contributing]: docs/contributing
 [examples]: examples/
+ 
+
+[.github/]: .github/
+[docs/]: docs/
+[notebooks/]: notebooks/
+[src/python_app_template/]: src/python_app_template 
+[src/python_app_template/assets/]: src/python_app_template/assets/
+[tests/]: tests/
 
 [.coveragerc]: .coveragerc
 [.flake8]: .flake8
@@ -108,29 +117,96 @@ Example:
   Using HTML sections breaks the rendering of [Markdown alerts] alerts.
   To avoid this, place them outside `<div></div>` sections, for example.
 
-In this case,
-it can be useful to show a short description of each file in the root of the repository template:
+### Minimum Requirements
+
+This template can be used at various stages of development:
+**Proof of Concept**, **Prototype**, and **Production**.  
+Each stage has its own minimum quality requirements
+and incrementally builds upon the requirements of the previous stages.
+
+
+1. 💡 **Proof of Concept**  
+   - Replace all instances of `python-app-template` with your project's name.
+   - Add the following sections to the `README.md`:  
+     - **Introduction**  
+     - **Usage**
+   - Declare required dependencies in [pyproject.toml].
+     Use the `dev` extra for development-only dependencies.
+   - Store data files (`.txt`, `.json`, `.csv`, etc.) in the `src/your_project/assets/` folder.
+
+2. 🛠️ **Prototype**  
+   - Set up [branch protection rules] for `main` and `develop`.
+     - ☑️ Restrict deletions.
+     - ☑️ Require a pull request before merging. 
+       - ☑️ Require approvals.
+       - ☑️ Require conversation resolution before merging.
+     - ☑️ Require status checks to pass. Add GitHub actions to checks.
+       - ☑️ Require branches to be up to date before merging.
+     - ☑️ Block force pushes.
+     - ☑️ Allowed merge methods: only Merge.
+   - Enforce the [Git Workflow].
+   - Configure Google Cloud triggers to publish the Docker image.
+   - Generate `requirements.txt` for Docker using:
+     ```
+     make reqs
+     ```
+   - Update the `README.md` to include:  
+     - **Output Schema**
+
+3. 🚀 **Production**  
+   - Install and configure pre-commit hooks. See [Preparing the environment].
+   - Add unit tests to ensure code reliability.
+   - Write thorough documentation:  
+     - A complete `README.md`.
+     - Docstrings for all **public** modules, classes, methods and functions.
+
+
+
+### Repository Overview
+
+_This section applies only to the template and provides an overview of the repository contents._.
+
+#### Directories
+
+This is a brief summary of all the relevant directories of the repository.
 
 <div  align="center">
 
-| File                    | Description                                                                     |
-| ------------------------| -----------------------------------------------------------------               |
-|[.flake8]                | Configuration for [PEP8] checker.                                               |
-|[.gitignore]             | List of files and directories to be ignored by git.                             |
-|[.pre-commit-config.yaml]| Configuration to automate software quality checks.                              |
-|[activate_venv.sh]       | Simple shortcut to enter virtual environment.                                   |
-|[cloudbuild.yaml]        | Configuration to build and publish docker images in Google Cloud.               |
-|[codecov.yml]            | Configuration for [codecov] GitHub integration.                                 |
-|[docker-compose.yml]     | Configuration for [docker compose].                                             |
-|[Dockerfile]             | Instructions for building the Docker image.                                     |
-|[LICENSE]                | The software license.                                                           |
-|[Makefile]               | Set of commands to simplify development.                                        |
-|[MANIFEST.in]            | Set of patterns to include or exclude files from installed package.             |
-|[pyproject.toml]         | Modern Python packaging configuration file.                                     |
-|[requirements.txt]       | Full set of compiled production dependencies (pinned to specific versions).     |
-|[requirements-test.txt]  | High level test dependencies needed to test the installed package.              |
-|[README.md]              | This file.                                                                      |
-|[setup.py]               | Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
+| Directory                       | Description                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------- |
+|[.github/]                       | Configuration for GitHub actions.                                               |
+|[docs/]                          | Markdown files with detailed documentation.                                     |
+|[notebooks/]                     | All jupyter notebooks go here.                                                  |
+|[src/python_app_template/]       | All source code go here.                                                        |
+|[src/python_app_template/assets/]| All data files go here.                                                         |
+|[tests/]                         | All tests go here.                                                              |
+
+</div>
+
+#### Files
+
+This is a brief summary of all the relevant files of the repository.
+
+<div  align="center">
+
+| File                           | Description                                                            |
+| -------------------------------| ------------------------------------------------------------------------------- |
+|[.flake8]                       | Configuration for [PEP8] checker.                                               |
+|[.gitignore]                    | List of files and directories to be ignored by git.                             |
+|[.pre-commit-config.yaml]       | Configuration to automate software quality checks.                              |
+|[activate_venv.sh]              | Simple shortcut to enter virtual environment.                                   |
+|[cloudbuild.yaml]               | Configuration to build and publish docker images in Google Cloud.               |
+|[codecov.yml]                   | Configuration for [codecov] GitHub integration.                                 |
+|[docker-compose.yml]            | Configuration for [docker compose].                                             |
+|[Dockerfile]                    | Instructions for building the Docker image.                                     |
+|[LICENSE]                       | The software license.                                                           |
+|[Makefile]                      | Set of commands to simplify development.                                        |
+|[MANIFEST.in]                   | Set of patterns to include or exclude files from installed package.             |
+|[pyproject.toml]                | Modern Python packaging configuration file.                                     |
+|[requirements.txt]              | Full set of compiled production dependencies (pinned to specific versions).     |
+|[requirements-test.txt]         | High level test dependencies needed to test the installed package.              |
+|[README.md]                     | This file.                                                                      |
+|[setup.py]                      | Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
 
 </div>
 
@@ -142,6 +218,7 @@ _Write instructions on how to use the CLI of the application here._
 
 #### Config file example
 
+_**Optional**_.
 _Provide an example of an input configuration file._
 
 ## Output schema.
