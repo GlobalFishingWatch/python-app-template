@@ -126,13 +126,13 @@ and incrementally builds upon the requirements of the previous stages.
 
 
 1. 💡 **Proof of Concept**  
-   - Replace all instances of `python-app-template` with your project's name.
+   - Update the project's name with `python init_project.py MY-PROJECT-NAME`.
+   - Declare required dependencies in [pyproject.toml].
+     Use the `dev` extra for development-only dependencies.
+   - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/your_project_name/assets/` directory.
    - Add the following sections to the `README.md`:  
      - **Introduction**  
      - **Usage**
-   - Declare required dependencies in [pyproject.toml].
-     Use the `dev` extra for development-only dependencies.
-   - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/your_project/assets/` directory.
 
 2. 🛠️ **Prototype**  
    - Set up [branch protection rules] for `main` and `develop` branches.
