@@ -148,7 +148,7 @@ and incrementally builds upon the requirements of the previous stages.
      - **Output Schema**
 
 3. 🚀 **Production**  
-   - Install and configure pre-commit hooks. See [Preparing the environment].
+   - Install and configure pre-commit hooks. See [CONTRIBUTING.md].
    - Add unit tests to ensure code reliability.
    - Write thorough documentation:  
      - A complete `README.md`.
