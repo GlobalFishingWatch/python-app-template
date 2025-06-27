@@ -6,14 +6,16 @@ OLD_NAME = "python-app-template"
 
 FILES_TO_UPDATE = [
     "cloudbuild.yaml",
-    "docs/contributing/ENVIRONMENT.md",
+    "CONTRIBUTING.md",
+    "Makefile",
     "pyproject.toml",
     "README.md",
     "requirements.txt",
     "tests/test_assets.py",
     "tests/test_version.py",
-    "src/python_app_template/version.py",
 ]
+
+VERSION_FILE = "src/{old_name}/version.py"
 
 SRC_DIR = pathlib.Path("src")
 
@@ -85,11 +87,14 @@ def update_project_name(old_name: str, new_name: str) -> None:
         (old_name.with_underscores, new_name.with_underscores),
     ]
 
+    files_to_update = FILES_TO_UPDATE.copy()
+    files_to_update.append(VERSION_FILE.format(old_name=old_name.with_underscores))
+
     print("🔁 Replacing names:")
     for o, n in replacements:
         print(f"  {o} → {n}")
 
-    for file in FILES_TO_UPDATE:
+    for file in files_to_update:
         path = pathlib.Path(file)
         if path.exists():
             _replace_in_file(path, replacements)

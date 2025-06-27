@@ -8,7 +8,7 @@ DOCKER_CI_TEST_SERVICE:=test
 GCP_PROJECT:=world-fishing-827
 GCP_DOCKER_VOLUME:=gcp
 
-sources = src
+sources = python_app_template
 
 # ---------------------
 # DOCKER
@@ -55,11 +55,17 @@ reqs-upgrade:
 venv:
 	python -m venv ${VENV_NAME}
 
-.PHONY: install  ## Install the package and dependencies for local development.
-install:
+.PHONY: upgrade-pip  ## Upgrades pip.
+upgrade-pip:
 	python -m pip install -U pip
-	python -m pip install -e .[lint,dev,build]
+
+.PHONY: install-test  ## Install and only test dependencies.
+install-test: upgrade-pip
 	python -m pip install -r requirements-test.txt
+
+.PHONY: install-all  ## Install the package in editable mode & all dependencies for local development.
+install-all: upgrade-pip
+	python -m pip install -e .[lint,dev,build,test]
 
 .PHONY: test  ## Run all unit tests exporting coverage.xml report.
 test:

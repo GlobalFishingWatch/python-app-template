@@ -1,4 +1,4 @@
-# Git workflow summary:
+# Git Flow:
 
 [Git Flow]: https://nvie.com/posts/a-successful-git-branching-model/
 [Semantic Versioning]: https://semver.org
@@ -6,9 +6,7 @@
 > [!IMPORTANT]
 In the following, **X**, **Y** and **Z** refer to **MAJOR**, **MINOR** and **PATCH** of [Semantic Versioning].
 
-We use [Git Flow] as our branching strategy,
-which is well suited for projects with long release cycles.
-In this document we present a summary of the strategy.
+[Git Flow] is a branching strategy that defines dedicated branches for features, releases, and hotfixes, built around long-lived main and develop branches. It’s well suited for projects with long or complex release cycles, or when teams need an unstable shared branch for ongoing development.
 
 These are the 5 types of branches used in this strategy:
 | Name            | Type      | Purpose                                                                          |
@@ -21,13 +19,6 @@ These are the 5 types of branches used in this strategy:
 
 <div align="justify">
 
-## **Temporary branches**:
-
-Temporary branches are used to integrate features, releases and hotfixes to the permanent branches.
-Names should be descriptive and concise, all lowercase and with words separated by hyphens "-".
-Optionally, feature branch names can be prefixed with JIRA ticket instead of the `feature/` prefix.
-For example, you can use something like `PIPELINE-2020-name-of-the-branch`.
-
 ### **Feature workflow**:
 
 1. Create a branch from `develop`.
@@ -35,20 +26,6 @@ For example, you can use something like `PIPELINE-2020-name-of-the-branch`.
 3. Rebase on-top of `develop`.
 4. Push changes and open a PR. Ask for a review.
 5. Merge branch to `develop` with a merge commit.
-
-To maintain a clear _semi-linear_ history in `develop`,
-we rebase feature branches on top of `develop` before merging.
-The merge should be done **forcing a merge commit**,
-otherwise would be a fast-forward merge (because we rebased)
-and the history would be linear instead of semi-linear,
-losing the context of the branch.
-This is enforced in the GitHub UI,
-but locally is done with:
-```shell
-git checkout develop
-git pull
-git merge branch_name --no-ff
-```
 
 ### **Release workflow**:
 
