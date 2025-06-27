@@ -184,7 +184,7 @@ Try to follow these guidelines:
   * It targets the correct base branch (depending on the chosen [Git Workflow]).
   * It is focused and limited in scope to simplify the review process.
   * Its description includes a link to the related **JIRA** ticket
-    to support integration between the issue and the PR.
+    to support integration between the issue and the **PR**.
 
 [^1]: When performing a rebase, it's acceptable to `push --force` to your own feature branch,
       but **never** on shared branches.

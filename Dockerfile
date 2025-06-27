@@ -56,10 +56,10 @@ RUN pip install . && \
 FROM deps AS dev
 
 COPY . /opt/project
-RUN pip install -e .[lint,test,dev,build]
+RUN make install-all
 
 # ---------------------------------------------------------------------------------------
-# TEST IMAGE (This checks that package is properly installed in prod image)
+# TEST IMAGE (This one allows to check that package is properly installed in prod image)
 # ---------------------------------------------------------------------------------------
 FROM prod AS test
 

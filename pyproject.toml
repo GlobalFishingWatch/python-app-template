@@ -45,7 +45,7 @@ Repository = "https://github.com/GlobalFishingWatch/python-app-template"
 Issues = "https://github.com/GlobalFishingWatch/python-app-template/issues"
 
 [project.scripts]
-python-app-template = "python_app_template.cli:main"
+python-app-template = "python_app_template.cli.main:main"
 
 [project.optional-dependencies]
 # Linting and code quality tools
