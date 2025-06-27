@@ -66,7 +66,7 @@ A template for Python applications.
 [codecov.yml]: codecov.yml
 [docker-compose.yml]: docker-compose.yml
 [Dockerfile]: Dockerfile
-[GIT-WORKFLOW.md]: GIT-WORKFLOW.md
+[CONTRIBUTING.md]: CONTRIBUTING.md
 [LICENSE]: LICENSE
 [Makefile]: Makefile
 [MANIFEST.in]: MANIFEST.in
@@ -77,12 +77,6 @@ A template for Python applications.
 [README.md]: README.md
 [setup.py]: setup.py
 
-
-[Preparing the environment]: docs/contributing/ENVIRONMENT.md
-[Making changes]: docs/contributing/MAKING-CHANGES.md
-[Git Workflow]: docs/contributing/GIT-WORKFLOW.md
-[Managing dependencies]: docs/contributing/DEPENDENCIES.md
-[How to deploy]: docs/contributing/HOW-TO-DEPLOY.md
 
 ## Introduction
 
@@ -189,7 +183,7 @@ This is a brief summary of all the relevant files of the repository.
 
 <div  align="center">
 
-| File                           | Description                                                            |
+| File                           | Description                                                                     |
 | -------------------------------| ------------------------------------------------------------------------------- |
 |[.flake8]                       | Configuration for [PEP8] checker.                                               |
 |[.gitignore]                    | List of files and directories to be ignored by git.                             |
@@ -197,6 +191,7 @@ This is a brief summary of all the relevant files of the repository.
 |[activate_venv.sh]              | Simple shortcut to enter virtual environment.                                   |
 |[cloudbuild.yaml]               | Configuration to build and publish docker images in Google Cloud.               |
 |[codecov.yml]                   | Configuration for [codecov] GitHub integration.                                 |
+|[CONTRIBUTING.md]               | A guide for contributing to the project.                                        |
 |[docker-compose.yml]            | Configuration for [docker compose].                                             |
 |[Dockerfile]                    | Instructions for building the Docker image.                                     |
 |[LICENSE]                       | The software license.                                                           |
@@ -234,12 +229,7 @@ _Explain the data persistence pattern used in this application._
 
 ## How to Contribute
 
-Please read the guidelines in [docs/contributing] folder:
-1. [Preparing the environment]
-2. [Git Workflow]
-3. [Making changes]
-4. [Managing dependencies]
-5. [How to deploy]
+Please read the guidelines in [CONTRIBUTING.md].
 
 ## Implementation details
 
