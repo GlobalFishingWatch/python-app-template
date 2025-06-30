@@ -57,26 +57,27 @@ A template for Python applications.
 [src/python_app_template/assets/]: src/python_app_template/assets/
 [tests/]: tests/
 
-[.coveragerc]: .coveragerc
+[.dockerignore]: .dockerignore
 [.flake8]: .flake8
 [.gitignore]: .gitignore
 [.pre-commit-config.yaml]: .pre-commit-config.yaml
 [activate-venv.sh]: activate-venv.sh
 [cloudbuild.yaml]: cloudbuild.yaml
 [codecov.yml]: codecov.yml
+[CONTRIBUTING.md]: CONTRIBUTING.md
 [docker-compose.yml]: docker-compose.yml
 [Dockerfile]: Dockerfile
-[CONTRIBUTING.md]: CONTRIBUTING.md
+[Git Workflow]: CONTRIBUTING.md#git-workflow
+[init_project.py]: init_project.py
 [LICENSE]: LICENSE
 [Makefile]: Makefile
 [MANIFEST.in]: MANIFEST.in
 [pyproject.toml]: pyproject.toml
 [pytest.ini]: pytest.ini
+[README.md]: README.md
 [requirements.txt]: requirements.txt
 [requirements-test.txt]: requirements-test.txt
-[README.md]: README.md
 [setup.py]: setup.py
-[Git Workflow]: CONTRIBUTING.md#git-workflow
 
 
 ## Introduction
@@ -186,6 +187,7 @@ This is a brief summary of all the relevant files of the repository.
 
 | File                           | Description                                                                     |
 | -------------------------------| ------------------------------------------------------------------------------- |
+|[.dockerignore]                 | Lists files and folders that Docker should ignore when building an image.       |
 |[.flake8]                       | Configuration for [PEP8] checker.                                               |
 |[.gitignore]                    | List of files and directories to be ignored by git.                             |
 |[.pre-commit-config.yaml]       | Configuration to automate software quality checks.                              |
@@ -195,6 +197,7 @@ This is a brief summary of all the relevant files of the repository.
 |[CONTRIBUTING.md]               | A guide for contributing to the project.                                        |
 |[docker-compose.yml]            | Configuration for [docker compose].                                             |
 |[Dockerfile]                    | Instructions for building the Docker image.                                     |
+|[init_project.py]               | Automates changing the project name across relevant files and directories.      |
 |[LICENSE]                       | The software license.                                                           |
 |[Makefile]                      | Set of commands to simplify development.                                        |
 |[MANIFEST.in]                   | Set of patterns to include or exclude files from installed package.             |
