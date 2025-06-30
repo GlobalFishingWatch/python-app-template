@@ -147,7 +147,6 @@ However,
 if your project involves a long release cycle and a long release process,
 or you need an unstable shared branch like develop for ongoing integration,
 then **Git Flow** may be more appropriate.
-
 You can read a summary of both workflows in [GITHUB-FLOW.md] and [GIT-FLOW.md].
 
 </div>
