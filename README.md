@@ -61,7 +61,7 @@ A template for Python applications.
 [.flake8]: .flake8
 [.gitignore]: .gitignore
 [.pre-commit-config.yaml]: .pre-commit-config.yaml
-[activate_venv.sh]: activate-venv.sh
+[activate-venv.sh]: activate-venv.sh
 [cloudbuild.yaml]: cloudbuild.yaml
 [codecov.yml]: codecov.yml
 [docker-compose.yml]: docker-compose.yml
@@ -76,6 +76,7 @@ A template for Python applications.
 [requirements-test.txt]: requirements-test.txt
 [README.md]: README.md
 [setup.py]: setup.py
+[Git Workflow]: CONTRIBUTING.md#git-workflow
 
 
 ## Introduction
@@ -138,7 +139,7 @@ and incrementally builds upon the requirements of the previous stages.
        - ☑️ Require branches to be up to date before merging.
      - ☑️ Block force pushes.
      - ☑️ Allowed merge methods: only Merge.
-   - Enforce the [Git Workflow] to maintain consistent branching and collaboration practices.
+   - Select a [Git Workflow] to maintain consistent branching and collaboration practices.
    - Set up Google Cloud Build triggers to automatically publish the Docker image upon merges.
    - Re-compile `requirements.txt` for Docker using:
      ```
@@ -158,7 +159,7 @@ and incrementally builds upon the requirements of the previous stages.
 
 ### Repository Overview
 
-_This section applies only to the template and provides an overview of the repository contents._.
+_This section applies only to the template and provides an overview of the repository contents._
 
 #### Directories
 
@@ -188,7 +189,7 @@ This is a brief summary of all the relevant files of the repository.
 |[.flake8]                       | Configuration for [PEP8] checker.                                               |
 |[.gitignore]                    | List of files and directories to be ignored by git.                             |
 |[.pre-commit-config.yaml]       | Configuration to automate software quality checks.                              |
-|[activate_venv.sh]              | Simple shortcut to enter virtual environment.                                   |
+|[activate-venv.sh]              | Simple shortcut to enter virtual environment.                                   |
 |[cloudbuild.yaml]               | Configuration to build and publish docker images in Google Cloud.               |
 |[codecov.yml]                   | Configuration for [codecov] GitHub integration.                                 |
 |[CONTRIBUTING.md]               | A guide for contributing to the project.                                        |
