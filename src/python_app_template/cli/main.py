@@ -11,7 +11,7 @@ def run(args: list):
     logger.info("Starting APP (v{})...".format(__version__))
 
 
-def main():
+def main():  # Entry point for the python package.
     run(sys.argv[1:])
 
 

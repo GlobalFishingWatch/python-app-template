@@ -143,7 +143,7 @@ testpaths = ["tests"]
 addopts = "-v --cov=src --cov-report=term-missing"
 
 [tool.coverage.run]
-source = ["src", "tests"]
+source = ["src", "tests", "bootstrap"]
 branch = true
 parallel = true
 context = "${CONTEXT}"
