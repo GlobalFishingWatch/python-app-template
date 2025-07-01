@@ -122,16 +122,16 @@ and incrementally builds upon the requirements of the previous stages.
 
 
 1. 💡 **Proof of Concept**  
-   - Update the project's name with `python init_project.py MY-PROJECT-NAME`.
+   - Update the project's name with `python init_project.py my-project-name`.
    - Declare required dependencies in [pyproject.toml].
      Use the `dev` extra for development-only dependencies.
-   - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/your_project_name/assets/` directory.
+   - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/my_project_name/assets/` directory.
    - Add the following sections to the `README.md`:  
      - **Introduction**  
      - **Usage**
 
 2. 🛠️ **Prototype**  
-   - Set up [branch protection rules] for `main` and `develop` branches.
+   - Set up [branch protection rules] for `main` branch (and `develop` if exists).
      - ☑️ Restrict deletions.
      - ☑️ Require a pull request before merging. 
        - ☑️ Require approvals.
