@@ -56,7 +56,7 @@ RUN pip install . && \
 FROM deps AS dev
 
 COPY . /opt/project
-RUN make install-all
+RUN make install
 
 # ---------------------------------------------------------------------------------------
 # TEST IMAGE (This one allows to check that package is properly installed in prod image)
