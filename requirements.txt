@@ -4,17 +4,17 @@
 #
 #    pip-compile --output-file=requirements.txt
 #
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
     # via rich
 mdurl==0.1.2
     # via markdown-it-py
-pygments==2.19.1
+pygments==2.19.2
     # via rich
-pyyaml==6.0.2
-    # via python-app-template (setup.py)
-rich==13.9.4
+pyyaml==6.0.3
+    # via my-project-name (setup.py)
+rich==14.2.0
     # via
-    #   python-app-template (setup.py)
+    #   my-project-name (setup.py)
     #   rich-argparse
-rich-argparse==1.7.0
-    # via python-app-template (setup.py)
+rich-argparse==1.7.2
+    # via my-project-name (setup.py)

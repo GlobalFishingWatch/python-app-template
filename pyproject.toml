@@ -11,7 +11,7 @@ namespaces = false
 "assets" = ["*"]
 
 [project]
-name = "python-app-template"
+name = "my-project-name"
 version = "0.1.0"
 description = "A template for python (dockerized) applications."
 readme = "README.md"
@@ -33,19 +33,19 @@ classifiers = [
 requires-python = ">= 3.9"
 dependencies = [
     "pyyaml~=6.0",
-    "rich~=13.9",
+    "rich~=14.0",
     "rich-argparse~=1.6",
 ]
 
 [project.urls]
-Homepage = "https://github.com/GlobalFishingWatch/python-app-template"
-Documentation = "https://globalfishingwatch.github.io/python-app-template/"
-Changelog = "https://github.com/GlobalFishingWatch/python-app-template/blob/main/CHANGELOG.md"
-Repository = "https://github.com/GlobalFishingWatch/python-app-template"
-Issues = "https://github.com/GlobalFishingWatch/python-app-template/issues"
+Homepage = "https://github.com/GlobalFishingWatch/my-project-name"
+Documentation = "https://globalfishingwatch.github.io/my-project-name/"
+Changelog = "https://github.com/GlobalFishingWatch/my-project-name/blob/main/CHANGELOG.md"
+Repository = "https://github.com/GlobalFishingWatch/my-project-name"
+Issues = "https://github.com/GlobalFishingWatch/my-project-name/issues"
 
 [project.scripts]
-python-app-template = "python_app_template.cli.main:main"
+my-project-name = "my_project_name.cli.main:main"
 
 [project.optional-dependencies]
 # Linting and code quality tools
@@ -63,7 +63,7 @@ lint = [
 # Development workflow and tools
 dev = [
   "pre-commit~=4.2",          # Framework for managing pre-commit hooks.
-  "pip-tools~=7.0",           # Freezing dependencies for production containers.
+  "pip-tools>=7.4,<8.0",      # Compatible with pip 24+, fixes use_pep517 AttributeError.
   "pip-audit~=2.8",           # Audit for finding vulnerabilities in dependencies.
 ]
 
@@ -140,7 +140,7 @@ disallow_untyped_calls = false
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = ["tests"]
-addopts = "-v --cov=python_app_template --cov=init_project --cov-report=term-missing"
+addopts = "-v --cov=my_project_name --cov=init_project --cov-report=term-missing"
 
 [tool.coverage.run]
 branch = true

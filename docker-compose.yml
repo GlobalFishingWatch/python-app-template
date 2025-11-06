@@ -1,26 +1,29 @@
 services:
   gcloud:
     image: google/cloud-sdk:latest
+    platform: linux/amd64
     volumes:
-      - "gcp:/root/.config/"
+      - 'gcp:/root/.config/'
     entrypoint: gcloud
 
   dev:
     build:
       context: .
       target: dev
+    platform: linux/amd64
     volumes:
-      - ".:/opt/project"
-      - "gcp:/root/.config/"
+      - '.:/opt/project'
+      - 'gcp:/root/.config/'
     entrypoint: /bin/bash
 
   test:
+    platform: linux/amd64
     # Runs tests using the production Docker image.
     # Intended to be executed in the GitHub CI environment.
     build:
       context: .
       target: test
-    entrypoint: "pytest -v"
+    entrypoint: 'pytest -v'
 volumes:
   gcp:
     external: true
