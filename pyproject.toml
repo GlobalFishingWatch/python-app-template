@@ -11,7 +11,7 @@ namespaces = false
 "assets" = ["*"]
 
 [project]
-name = "my-project-name"
+name = "python-app-template"
 version = "0.1.0"
 description = "A template for python (dockerized) applications."
 readme = "README.md"
@@ -38,14 +38,14 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/GlobalFishingWatch/my-project-name"
-Documentation = "https://globalfishingwatch.github.io/my-project-name/"
-Changelog = "https://github.com/GlobalFishingWatch/my-project-name/blob/main/CHANGELOG.md"
-Repository = "https://github.com/GlobalFishingWatch/my-project-name"
-Issues = "https://github.com/GlobalFishingWatch/my-project-name/issues"
+Homepage = "https://github.com/GlobalFishingWatch/python-app-template"
+Documentation = "https://globalfishingwatch.github.io/python-app-template/"
+Changelog = "https://github.com/GlobalFishingWatch/python-app-template/blob/main/CHANGELOG.md"
+Repository = "https://github.com/GlobalFishingWatch/python-app-template"
+Issues = "https://github.com/GlobalFishingWatch/python-app-template/issues"
 
 [project.scripts]
-my-project-name = "my_project_name.cli.main:main"
+python-app-template = "my_project_name.cli.main:main"
 
 [project.optional-dependencies]
 # Linting and code quality tools
