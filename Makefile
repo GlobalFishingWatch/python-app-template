@@ -57,7 +57,7 @@ venv:
 
 .PHONY: upgrade-pip  ## Upgrades pip.
 upgrade-pip:
-	python -m pip install -U pip
+	python -m pip install pip==25.2
 
 .PHONY: install-test  ## Install and only test dependencies.
 install-test: upgrade-pip

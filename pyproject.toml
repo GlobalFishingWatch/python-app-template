@@ -33,7 +33,7 @@ classifiers = [
 requires-python = ">= 3.9"
 dependencies = [
     "pyyaml~=6.0",
-    "rich~=13.9",
+    "rich~=14.0",
     "rich-argparse~=1.6",
 ]
 
@@ -63,7 +63,7 @@ lint = [
 # Development workflow and tools
 dev = [
   "pre-commit~=4.2",          # Framework for managing pre-commit hooks.
-  "pip-tools~=7.0",           # Freezing dependencies for production containers.
+  "pip-tools>=7.4,<8.0",      # Compatible with pip 24+, fixes use_pep517 AttributeError.
   "pip-audit~=2.8",           # Audit for finding vulnerabilities in dependencies.
 ]
 
