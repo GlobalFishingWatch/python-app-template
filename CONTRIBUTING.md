@@ -144,7 +144,13 @@ Install `uv`:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Then, use it with the Makefile commands by overriding the `PIP` variable:
+Then, use it with the justfile commands:
+
+```
+just install
+```
+
+Or use the Makefile commands while overriding the `PIP` variable:
 
 ```shell
 make install PIP="uv pip"
