@@ -145,10 +145,9 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 Then, use it with the Makefile commands by overriding the `PIP` variable:
+
 ```shell
 make install PIP="uv pip"
-make reqs PIP="uv pip"
-make reqs-upgrade PIP="uv pip"
 ```
 
 This will use `uv pip` for faster resolution while maintaining the same functionality.
@@ -192,7 +191,7 @@ Try to follow these guidelines:
 
 - Maintain a clean commit history in your feature branch.
   Use interactive rebase (`git rebase -i`) to squash, reorder, or edit commits.[^1]
-  
+
 - If you are not using [pre-commit] hooks,
   use the provided [Makefile] commands (`format`, `lint`, `codespell`, `typecheck`)
   as much as possible to maintain code quality.
@@ -217,8 +216,8 @@ Try to follow these guidelines:
 
 <div align="justify">
 
-A Google Cloud build that publishes a Docker image is triggered in the following cases:  
-- When a commit is merged into `main` or `develop`.  
+A Google Cloud build that publishes a Docker image is triggered in the following cases:
+- When a commit is merged into `main` or `develop`.
 - When a new tag is created.
 
 
