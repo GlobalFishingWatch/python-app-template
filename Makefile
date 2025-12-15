@@ -10,7 +10,7 @@ GCP_DOCKER_VOLUME:=gcp
 
 sources = python_app_template
 
-PYTHON:=${VENV_NAME}/bin/python
+PYTHON:=python
 # Control package manager. To use `uv`, override with: make install PIP="uv pip"
 PIP:=${PYTHON} -m pip
 
@@ -22,7 +22,7 @@ PIP:=${PYTHON} -m pip
 docker-build:
 	docker compose build
 
-.PHONY: docker-volume  ## Creates the docker volume for GCP. 
+.PHONY: docker-volume  ## Creates the docker volume for GCP.
 docker-volume:
 	docker volume create --name ${GCP_DOCKER_VOLUME}
 

@@ -3,11 +3,15 @@
 # Use: `just install`, `just test`, `just reqs`, etc.
 
 set shell := ["bash", "-c"]
-set default-recipe := "list"
+
 
 VENV_NAME := ".venv"
 PYTHON := VENV_NAME / "bin" / "python"
-PIP := PYTHON + " -m pip"
+PIP := "uv pip"
+
+[private]
+default:
+	just --list
 
 # Create virtual environment
 venv:
