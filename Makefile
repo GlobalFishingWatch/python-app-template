@@ -27,27 +27,26 @@ docker-volume:
 	docker volume create --name ${GCP_DOCKER_VOLUME}
 
 .PHONY: docker-gcp ## gcp: Authenticates to google cloud and configure the project.
-docker-gcp:
-	make docker-volume
+docker-gcp: docker-volume
 	docker compose run gcloud auth application-default login
 	docker compose run gcloud config set project ${GCP_PROJECT}
 	docker compose run gcloud auth application-default set-quota-project ${GCP_PROJECT}
 
 .PHONY: docker-ci-test ## Runs tests using prod image, exporting coverage.xml report.
-docker-ci-test:
+docker-ci-test: docker-volume
 	docker compose run --rm ${DOCKER_CI_TEST_SERVICE}
 
 .PHONY: docker-shell ## Enters to docker container shell.
-docker-shell:
+docker-shell: docker-volume
 	docker compose run --rm -it ${DOCKER_DEV_SERVICE}
 
 .PHONY: reqs  ## Compiles requirements.txt with pip-tools.
-reqs:
+reqs: docker-volume
 	docker compose run --rm ${DOCKER_DEV_SERVICE} -c \
 		'pip-compile -o ${REQS_PROD} -v'
 
 .PHONY: reqs-upgrade  ## Upgrades requirements.txt with pip-tools.
-reqs-upgrade:
+reqs-upgrade: docker-volume
 	docker compose run --rm ${DOCKER_DEV_SERVICE} -c \
 		'pip-compile -o ${REQS_PROD} -U -v'
 
