@@ -11,7 +11,6 @@ GCP_DOCKER_VOLUME:=gcp
 sources = python_app_template
 
 PYTHON:=python
-# Control package manager. To use `uv`, override with: make install PIP="uv pip"
 PIP:=${PYTHON} -m pip
 
 # ---------------------
