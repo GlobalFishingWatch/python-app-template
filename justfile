@@ -21,7 +21,7 @@ venv:
 upgrade-pip:
     make upgrade-pip PYTHON="{{ PYTHON }}" PIP="{{ PIP }}"
 
-# Install and only test dependencies
+# Install only test dependencies
 install-test: upgrade-pip
     make install-test PYTHON="{{ PYTHON }}" PIP="{{ PIP }}"
 
