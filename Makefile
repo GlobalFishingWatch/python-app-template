@@ -10,6 +10,10 @@ GCP_DOCKER_VOLUME:=gcp
 
 sources = python_app_template
 
+PYTHON:=python
+# Control package manager. To use `uv`, override with: make install PIP="uv pip"
+PIP:=${PYTHON} -m pip
+
 # ---------------------
 # DOCKER
 # ---------------------
@@ -18,32 +22,31 @@ sources = python_app_template
 docker-build:
 	docker compose build
 
-.PHONY: docker-volume  ## Creates the docker volume for GCP. 
+.PHONY: docker-volume  ## Creates the docker volume for GCP.
 docker-volume:
 	docker volume create --name ${GCP_DOCKER_VOLUME}
 
 .PHONY: docker-gcp ## gcp: Authenticates to google cloud and configure the project.
-docker-gcp:
-	make docker-volume
+docker-gcp: docker-volume
 	docker compose run gcloud auth application-default login
 	docker compose run gcloud config set project ${GCP_PROJECT}
 	docker compose run gcloud auth application-default set-quota-project ${GCP_PROJECT}
 
 .PHONY: docker-ci-test ## Runs tests using prod image, exporting coverage.xml report.
-docker-ci-test:
+docker-ci-test: docker-volume
 	docker compose run --rm ${DOCKER_CI_TEST_SERVICE}
 
 .PHONY: docker-shell ## Enters to docker container shell.
-docker-shell:
+docker-shell: docker-volume
 	docker compose run --rm -it ${DOCKER_DEV_SERVICE}
 
 .PHONY: reqs  ## Compiles requirements.txt with pip-tools.
-reqs:
+reqs: docker-volume
 	docker compose run --rm ${DOCKER_DEV_SERVICE} -c \
 		'pip-compile -o ${REQS_PROD} -v'
 
 .PHONY: reqs-upgrade  ## Upgrades requirements.txt with pip-tools.
-reqs-upgrade:
+reqs-upgrade: docker-volume
 	docker compose run --rm ${DOCKER_DEV_SERVICE} -c \
 		'pip-compile -o ${REQS_PROD} -U -v'
 
@@ -53,23 +56,23 @@ reqs-upgrade:
 
 .PHONY: venv  ## Creates virtual environment.
 venv:
-	python -m venv ${VENV_NAME}
+	${PYTHON} -m venv ${VENV_NAME}
 
 .PHONY: upgrade-pip  ## Upgrades pip.
 upgrade-pip:
-	python -m pip install pip==25.2
+	${PIP} install pip==25.2
 
 .PHONY: install-test  ## Install and only test dependencies.
 install-test: upgrade-pip
-	python -m pip install -r requirements-test.txt
+	${PIP} install -r requirements-test.txt
 
 .PHONY: install  ## Install the package in editable mode & all dependencies for local development.
 install: upgrade-pip
-	python -m pip install -e .[lint,dev,build,test]
+	${PIP} install -e .[lint,dev,build,test]
 
 .PHONY: test  ## Run all unit tests exporting coverage.xml report.
 test:
-	python -m pytest -m "not integration" --cov-report term --cov-report=xml --cov=$(sources)
+	${PYTHON} -m pytest -m "not integration" --cov-report term --cov-report=xml --cov=$(sources)
 
 # ---------------------
 # QUALITY CHECKS
@@ -77,36 +80,36 @@ test:
 
 .PHONY: hooks  ## Install and pre-commit hooks.
 hooks:
-	python -m pre_commit install --install-hooks
-	python -m pre_commit install --hook-type commit-msg
+	${PYTHON} -m pre_commit install --install-hooks
+	${PYTHON} -m pre_commit install --hook-type commit-msg
 
 .PHONY: format  ## Auto-format python source files according with PEP8.
 format:
-	python -m black $(sources)
-	python -m ruff check --fix $(sources)
-	python -m ruff format $(sources)
+	${PYTHON} -m black $(sources)
+	${PYTHON} -m ruff check --fix $(sources)
+	${PYTHON} -m ruff format $(sources)
 
 .PHONY: lint  ## Lint python source files.
 lint:
-	python -m ruff check $(sources)
-	python -m ruff format --check $(sources)
-	python -m black $(sources) --check --diff
+	${PYTHON} -m ruff check $(sources)
+	${PYTHON} -m ruff format --check $(sources)
+	${PYTHON} -m black $(sources) --check --diff
 
 .PHONY: codespell  ## Use Codespell to do spell checking.
 codespell:
-	python -m codespell_lib
+	${PYTHON} -m codespell_lib
 
 .PHONY: typecheck  ## Perform type-checking.
 typecheck:
-	python -m mypy
+	${PYTHON} -m mypy
 
 .PHONY: audit  ## Use pip-audit to scan for known vulnerabilities.
 audit:
-	python -m pip_audit .
+	${PYTHON} -m pip_audit .
 
 .PHONY: pre-commit  ## Run all pre-commit hooks.
 pre-commit:
-	python -m pre_commit run --all-files
+	${PYTHON} -m pre_commit run --all-files
 
 .PHONY: all  ## Run the standard set of checks performed in CI.
 all: lint codespell typecheck audit test
@@ -118,7 +121,7 @@ all: lint codespell typecheck audit test
 
 .PHONY: build  ## Build a source distribution and a wheel distribution.
 build: all clean
-	python -m build
+	${PYTHON} -m build
 
 .PHONY: publish  ## Publish the distribution to PyPI.
 publish: build
