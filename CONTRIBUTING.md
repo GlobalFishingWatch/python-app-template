@@ -132,6 +132,33 @@ make reqs-upgrade
 > Remember that if you change the [requirements.txt],
 you need to rebuild the docker image (`make docker-build`) in order to use it locally.
 
+### Using UV for faster local development (Optional)
+
+**This is for local development only.** Docker builds use pip by default.
+
+If you prefer faster dependency resolution and installation during local development,
+you can optionally use [uv](https://docs.astral.sh/uv/) instead of pip.
+
+Install `uv`:
+```shell
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Then, use it with the justfile commands:
+
+```
+just install
+```
+
+Or use the Makefile commands while overriding the `PIP` variable:
+
+```shell
+make install PIP="uv pip"
+```
+
+This will use `uv pip` for faster resolution while maintaining the same functionality.
+Docker and CI/CD pipelines will continue to use standard pip.
+
 ## Git Workflow
 
 <div align="justify">
@@ -170,7 +197,7 @@ Try to follow these guidelines:
 
 - Maintain a clean commit history in your feature branch.
   Use interactive rebase (`git rebase -i`) to squash, reorder, or edit commits.[^1]
-  
+
 - If you are not using [pre-commit] hooks,
   use the provided [Makefile] commands (`format`, `lint`, `codespell`, `typecheck`)
   as much as possible to maintain code quality.
@@ -195,8 +222,8 @@ Try to follow these guidelines:
 
 <div align="justify">
 
-A Google Cloud build that publishes a Docker image is triggered in the following cases:  
-- When a commit is merged into `main` or `develop`.  
+A Google Cloud build that publishes a Docker image is triggered in the following cases:
+- When a commit is merged into `main` or `develop`.
 - When a new tag is created.
 
 
