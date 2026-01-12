@@ -4,6 +4,7 @@ VENV_NAME:=.venv
 REQS_PROD:=requirements.txt
 DOCKER_DEV_SERVICE:=dev
 DOCKER_CI_TEST_SERVICE:=test
+DOCKER_ISOLATED_SERVICE:=isolated
 
 GCP_PROJECT:=world-fishing-827
 GCP_DOCKER_VOLUME:=gcp
@@ -32,7 +33,7 @@ docker-gcp: docker-volume
 	docker compose run gcloud auth application-default set-quota-project ${GCP_PROJECT}
 
 .PHONY: docker-ci-test ## Runs tests using prod image, exporting coverage.xml report.
-docker-ci-test: docker-volume
+docker-ci-test:
 	docker compose run --rm ${DOCKER_CI_TEST_SERVICE}
 
 .PHONY: docker-shell ## Enters to docker container shell.
@@ -40,13 +41,13 @@ docker-shell: docker-volume
 	docker compose run --rm -it ${DOCKER_DEV_SERVICE}
 
 .PHONY: reqs  ## Compiles requirements.txt with pip-tools.
-reqs: docker-volume
-	docker compose run --rm ${DOCKER_DEV_SERVICE} -c \
+reqs:
+	docker compose run --rm ${DOCKER_ISOLATED_SERVICE} -c \
 		'pip-compile -o ${REQS_PROD} -v'
 
 .PHONY: reqs-upgrade  ## Upgrades requirements.txt with pip-tools.
-reqs-upgrade: docker-volume
-	docker compose run --rm ${DOCKER_DEV_SERVICE} -c \
+reqs-upgrade:
+	docker compose run --rm ${DOCKER_ISOLATED_SERVICE} -c \
 		'pip-compile -o ${REQS_PROD} -U -v'
 
 # ---------------------
@@ -96,7 +97,7 @@ lint:
 
 .PHONY: codespell  ## Use Codespell to do spell checking.
 codespell:
-	${PYTHON} -m codespell_lib
+	${PYTHON} -m codespell
 
 .PHONY: typecheck  ## Perform type-checking.
 typecheck:
