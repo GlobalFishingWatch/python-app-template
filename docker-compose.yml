@@ -24,6 +24,18 @@ services:
       context: .
       target: test
     entrypoint: 'pytest -v'
+
+  isolated:
+    # Minimal dev container without GCP credentials.
+    # Used for tasks that don't need external dependencies (e.g., compiling requirements).
+    build:
+      context: .
+      target: dev
+    platform: linux/amd64
+    volumes:
+      - '.:/opt/project'
+    entrypoint: /bin/bash
+
 volumes:
   gcp:
     external: true

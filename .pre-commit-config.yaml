@@ -32,6 +32,7 @@ repos:
     language: python
     pass_filenames: false
     additional_dependencies:
+      - "codespell[toml]>=2.4"
       - tomli
 
   - id: typecheck
