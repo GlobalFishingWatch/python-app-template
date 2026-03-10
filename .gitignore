@@ -170,3 +170,6 @@ terraform.tfstate.backup
 # project stuff
 scripts/config.sh
 test/
+
+# UV
+.python-version
