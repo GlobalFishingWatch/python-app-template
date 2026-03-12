@@ -2,17 +2,25 @@
 
 VENV_NAME:=.venv
 REQS_PROD:=requirements.txt
+SETUP_FILE:=pyproject.toml
+SOURCES = src
+
 DOCKER_DEV_SERVICE:=dev
-DOCKER_CI_TEST_SERVICE:=test
-DOCKER_ISOLATED_SERVICE:=isolated
+DOCKER_DEV_NO_GCP_SERVICE:=dev_no_gcp
+DOCKER_PROD_SERVICE:=prod
+DOCKER_TEST_SERVICE:=test
 
 GCP_PROJECT:=world-fishing-827
 GCP_DOCKER_VOLUME:=gcp
 
-sources = python_app_template
+PYTHON_VERSION:=3.12
+UV_VERSION := 0.10.9
 
-PYTHON:=python
-PIP:=${PYTHON} -m pip
+VENV:=uv venv
+PIP:=uv pip
+PIP_COMPILE:=uv pip compile
+
+
 
 # ---------------------
 # DOCKER
@@ -32,31 +40,36 @@ docker-gcp: docker-volume
 	docker compose run gcloud config set project ${GCP_PROJECT}
 	docker compose run gcloud auth application-default set-quota-project ${GCP_PROJECT}
 
-.PHONY: docker-ci-test ## Runs tests using prod image, exporting coverage.xml report.
-docker-ci-test:
-	docker compose run --rm ${DOCKER_CI_TEST_SERVICE}
+.PHONY: docker-test ## Runs tests using prod image, exporting coverage.xml report.
+docker-test:
+	docker compose run --rm ${DOCKER_TEST_SERVICE}
 
 .PHONY: docker-shell ## Enters to docker container shell.
 docker-shell: docker-volume
 	docker compose run --rm -it ${DOCKER_DEV_SERVICE}
 
-.PHONY: reqs  ## Compiles requirements.txt with pip-tools.
+.PHONY: docker-reqs  ## Compiles requirements.txt with pip-tools.
 reqs:
-	docker compose run --rm ${DOCKER_ISOLATED_SERVICE} -c \
-		'pip-compile -o ${REQS_PROD} -v'
+	docker compose run --rm ${DOCKER_DEV_NO_GCP_SERVICE} -c \
+		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -v'
 
-.PHONY: reqs-upgrade  ## Upgrades requirements.txt with pip-tools.
+.PHONY: docker-reqs-upgrade  ## Upgrades requirements.txt with pip-tools.
 reqs-upgrade:
-	docker compose run --rm ${DOCKER_ISOLATED_SERVICE} -c \
-		'pip-compile -o ${REQS_PROD} -U -v'
+	docker compose run --rm ${DOCKER_DEV_NO_GCP_SERVICE} -c \
+		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -U -v'
 
 # ---------------------
 # VIRTUAL ENVIRONMENT
 # ---------------------
 
+.PHONY: uv  ## Installs UV
+uv: 
+	curl -LsSf https://astral.sh/uv/install.sh | UV_VERSION=$(UV_VERSION) sh
+	uv python pin ${PYTHON_VERSION}
+
 .PHONY: venv  ## Creates virtual environment.
 venv:
-	${PYTHON} -m venv ${VENV_NAME}
+	${VENV} ${VENV_NAME}
 
 .PHONY: upgrade-pip  ## Upgrades pip.
 upgrade-pip:
@@ -68,11 +81,12 @@ install-test: upgrade-pip
 
 .PHONY: install  ## Install the package in editable mode & all dependencies for local development.
 install: upgrade-pip
-	${PIP} install -e .[lint,dev,build,test]
+	${PIP} install -e .[lint,dev,build]
+	make install-test
 
 .PHONY: test  ## Run all unit tests exporting coverage.xml report.
 test:
-	${PYTHON} -m pytest -m "not integration" --cov-report term --cov-report=xml --cov=$(sources)
+	python -m pytest -m "not integration" --cov-report term --cov-report=xml --cov=$(SOURCES)
 
 # ---------------------
 # QUALITY CHECKS
@@ -80,36 +94,36 @@ test:
 
 .PHONY: hooks  ## Install and pre-commit hooks.
 hooks:
-	${PYTHON} -m pre_commit install --install-hooks
-	${PYTHON} -m pre_commit install --hook-type commit-msg
+	python -m pre_commit install --install-hooks
+	python -m pre_commit install --hook-type commit-msg
 
 .PHONY: format  ## Auto-format python source files according with PEP8.
 format:
-	${PYTHON} -m black $(sources)
-	${PYTHON} -m ruff check --fix $(sources)
-	${PYTHON} -m ruff format $(sources)
+	python -m black $(SOURCES)
+	python -m ruff check --fix $(SOURCES)
+	python -m ruff format $(SOURCES)
 
 .PHONY: lint  ## Lint python source files.
 lint:
-	${PYTHON} -m ruff check $(sources)
-	${PYTHON} -m ruff format --check $(sources)
-	${PYTHON} -m black $(sources) --check --diff
+	python -m ruff check $(SOURCES)
+	python -m ruff format --check $(SOURCES)
+	python -m black $(SOURCES) --check --diff
 
 .PHONY: codespell  ## Use Codespell to do spell checking.
 codespell:
-	${PYTHON} -m codespell
+	python -m codespell
 
 .PHONY: typecheck  ## Perform type-checking.
 typecheck:
-	${PYTHON} -m mypy
+	python -m mypy
 
 .PHONY: audit  ## Use pip-audit to scan for known vulnerabilities.
 audit:
-	${PYTHON} -m pip_audit .
+	python -m pip_audit .
 
 .PHONY: pre-commit  ## Run all pre-commit hooks.
 pre-commit:
-	${PYTHON} -m pre_commit run --all-files
+	python -m pre_commit run --all-files
 
 .PHONY: all  ## Run the standard set of checks performed in CI.
 all: lint codespell typecheck audit test
@@ -121,7 +135,7 @@ all: lint codespell typecheck audit test
 
 .PHONY: build  ## Build a source distribution and a wheel distribution.
 build: all clean
-	${PYTHON} -m build
+	python -m build
 
 .PHONY: publish  ## Publish the distribution to PyPI.
 publish: build

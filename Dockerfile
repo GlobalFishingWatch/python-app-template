@@ -1,69 +1,60 @@
 # ---------------------------------------------------------------------------------------
-# BASE IMAGE
+# BUILDER
 # ---------------------------------------------------------------------------------------
-FROM python:3.12.10-slim-bookworm AS base
+FROM python:3.12-slim-bookworm AS builder
 
-# Setup a volume for configuration and authtentication.
 VOLUME ["/root/.config"]
 
-# Update system and install build tools. Remove unneeded stuff afterwards.
-# Upgrade PIP.
-# Create working directory.
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc g++ build-essential && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --upgrade pip && \
-    mkdir -p /opt/project
+# Use uv for high-speed installs
+COPY --from=ghcr.io/astral-sh/uv:0.10.9 /uv /usr/local/bin/uv
 
-# Set working directory.
-WORKDIR /opt/project
+ENV UV_COMPILE_BYTECODE=1
 
-# ---------------------------------------------------------------------------------------
-# DEPENDENCIES IMAGE (installed project dependencies)
-# ---------------------------------------------------------------------------------------
-# We do this first so when we modify code while development, this layer is reused
-# from cache and only the layer installing the package executes again.
-FROM base AS deps
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY pyproject.toml requirements.txt README.md MANIFEST.in ./
+COPY src ./src
 
-# ---------------------------------------------------------------------------------------
-# Apache Beam integration IMAGE
-# ---------------------------------------------------------------------------------------
-FROM deps AS beam
-# Copy files from official SDK image, including script/dependencies.
-# IMPORTANT: This version must match the one in requirements.txt
-COPY --from=apache/beam_python3.12_sdk:2.64.0 /opt/apache/beam /opt/apache/beam
-
-# Set the entrypoint to Apache Beam SDK launcher.
-ENTRYPOINT ["/opt/apache/beam/boot"]
+RUN uv pip install --system --upgrade pip && \
+    uv pip install --system build && \
+    uv pip install --system --prefix=/install -r requirements.txt && \
+    uv pip install --system --prefix=/install --no-deps .
 
 # ---------------------------------------------------------------------------------------
 # PRODUCTION IMAGE
 # ---------------------------------------------------------------------------------------
-# If you need Apache Beam integration, replace "deps" base image with "beam".
-FROM deps AS prod
+FROM python:3.12-slim-bookworm AS prod
 
-COPY . /opt/project
-RUN pip install . && \
-    rm -rf /root/.cache/pip && \
-    rm -rf /opt/project/*
+ENV PYTHONUNBUFFERED=1
 
-# ---------------------------------------------------------------------------------------
-# DEVELOPMENT IMAGE (editable install and development tools)
-# ---------------------------------------------------------------------------------------
-# If you need Apache Beam integration, replace "deps" base image with "beam".
-FROM deps AS dev
+# Copy the pre-compiled packages from builder
+COPY --from=builder /install /usr/local
 
-COPY . /opt/project
-RUN make install
+# APACHE BEAM INTEGRATION (Uncomment if needed)
+# COPY --from=apache/beam_python3.12_sdk:2.71.0 /opt/apache/beam /opt/apache/beam
+# ENTRYPOINT ["/opt/apache/beam/boot"]
+
+WORKDIR /opt/project
 
 # ---------------------------------------------------------------------------------------
-# TEST IMAGE (This one allows to check that package is properly installed in prod image)
+# DEVELOPMENT IMAGE
+# ---------------------------------------------------------------------------------------
+FROM builder AS dev
+
+WORKDIR /opt/project
+
+COPY . .
+RUN uv pip install --system -e .[lint,dev,build] && \
+    uv pip install --system -r requirements-test.txt
+
+# ---------------------------------------------------------------------------------------
+# TEST IMAGE
 # ---------------------------------------------------------------------------------------
 FROM prod AS test
 
-COPY ./tests /opt/project/tests
-COPY ./requirements-test.txt /opt/project/
-
+COPY ./requirements-test.txt .
 RUN pip install -r requirements-test.txt
+
+COPY ./tests ./tests
+
+# Suppress all warnings during tests
+# To see/address warnings, run tests in your development environment.
+ENV PYTHONWARNINGS=ignore

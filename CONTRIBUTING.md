@@ -65,13 +65,18 @@ make docker-build
 make docker-gcp
 ```
 
+Install UV for faster installs (otherwise modify Makefile to use regular pip): 
+```shell
+make uv
+```
+
 4. Create virtual environment and activate it:
 ```shell
 make venv
 ./.venv/bin/activate
 ```
 
-5. Install dependencies and the python package:
+5. Install all dependencies for development and the python package in editable mode:
 ```shell
 make install
 ```

@@ -7,6 +7,7 @@ OLD_NAME = "python-app-template"
 FILES_TO_UPDATE = (
     "cloudbuild.yaml",
     "CONTRIBUTING.md",
+    "docker-compose.yml",
     "Makefile",
     "pyproject.toml",
     "README.md",
