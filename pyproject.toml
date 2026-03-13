@@ -12,7 +12,7 @@ namespaces = false
 
 [project]
 name = "python-app-template"
-version = "0.1.0"
+version = "0.2.0"
 description = "A template for python (dockerized) applications."
 readme = "README.md"
 license = "Apache-2.0"
