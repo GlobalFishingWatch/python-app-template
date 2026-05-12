@@ -14,6 +14,7 @@ FILES_TO_UPDATE = (
     "requirements.txt",
     "tests/test_assets.py",
     "tests/test_version.py",
+    "tests/cli/test_main.py",
 )
 
 VERSION_FILE_TPL = "{src_dir}/{old_name}/version.py"
