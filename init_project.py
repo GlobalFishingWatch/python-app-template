@@ -19,9 +19,7 @@ FILES_TO_UPDATE = (
     "pyproject.toml",
     "README.md",
     "requirements.txt",
-    "tests/test_assets.py",
-    "tests/test_version.py",
-    "tests/cli/test_main.py",
+    "requirements-test.txt",
 )
 
 PATHS_TO_REMOVE = (
@@ -29,9 +27,12 @@ PATHS_TO_REMOVE = (
     "docs/contributing",
 )
 
-VERSION_FILE_TPL = "{src_dir}/{old_name}/version.py"
-
 SOURCE_DIR = pathlib.Path("src")
+
+TESTS_DIR = pathlib.Path("tests")
+
+# Its tests use the template's name on purpose.
+INIT_PROJECT_TESTS = "test_init_project.py"
 
 
 class Name:
@@ -126,6 +127,12 @@ def update_project_name(
     print(f"🎉 Project renamed to: {new_name.with_dashes}.")
 
 
+def python_files(src_dir: pathlib.Path, tests_dir: pathlib.Path, package: str) -> list[str]:
+    """Returns the Python files of the package and the tests, which import the package by name."""
+    files = sorted((src_dir / package).rglob("*.py")) + sorted(tests_dir.rglob("*.py"))
+    return [str(f) for f in files if f.name != INIT_PROJECT_TESTS]
+
+
 def remove_template_only_paths(paths_to_remove: tuple[str, ...] = PATHS_TO_REMOVE) -> None:
     """Removes files that only belong to the template, like the shared contributing guide."""
     for path in paths_to_remove:
@@ -138,6 +145,7 @@ def main(
     files_to_update: tuple[str, ...] = FILES_TO_UPDATE,
     src_dir: pathlib.Path = SOURCE_DIR,
     paths_to_remove: tuple[str, ...] = PATHS_TO_REMOVE,
+    tests_dir: pathlib.Path = TESTS_DIR,
 ):
     """Entry point for the script.
 
@@ -153,8 +161,7 @@ def main(
     new_name = Name(args[1])
 
     files_to_update = list(files_to_update)
-    version_file = VERSION_FILE_TPL.format(src_dir=src_dir, old_name=old_name.with_underscores)
-    files_to_update.append(version_file)
+    files_to_update.extend(python_files(src_dir, tests_dir, old_name.with_underscores))
 
     update_project_name(
         old_name=old_name,
