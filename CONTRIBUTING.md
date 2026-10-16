@@ -122,9 +122,11 @@ is automatically generated with `uv pip compile`, based on the dependencies spec
 consistently across different environments.
 
 `requirements-test.txt` does the same for the test dependencies, declared in the `test`
-[dependency group] of `pyproject.toml`. It is compiled against the pins in `requirements.txt`,
-so the test image can install just the test dependencies on top of the production image
-and test the package exactly as it is deployed.
+[dependency group] of `pyproject.toml`. It contains only the test dependencies, kept compatible
+with the pins in `requirements.txt`, so the test image can install just them on top of the
+production image and test the package exactly as it is deployed.
+It doesn't repeat the production pins: those are compiled for the Docker image's Python version,
+and the CI job on the next Python version installs the package with its own resolution.
 
 Use `pyproject.toml` to define high-level dependencies with flexible version constraints
 (e.g., `~=1.2`, `>=1.0`, `<2.0`, ...).
