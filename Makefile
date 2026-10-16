@@ -95,7 +95,6 @@ test:
 .PHONY: hooks  ## Install and pre-commit hooks.
 hooks:
 	python -m pre_commit install --install-hooks
-	python -m pre_commit install --hook-type commit-msg
 
 .PHONY: format  ## Auto-format python source files according with PEP8.
 format:

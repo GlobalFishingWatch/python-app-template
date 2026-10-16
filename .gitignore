@@ -158,15 +158,8 @@ cython_debug/
 #OSX
 .DS_Store
 
-#Jupyter
-.ipynb
-
 #terraform
 .terraform
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
-
-# project stuff
-scripts/config.sh
-test/

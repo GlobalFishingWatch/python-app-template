@@ -24,7 +24,7 @@ A template for Python applications.
 * :white_check_mark: **[Optional]** pre-commit hooks to enforce automatic quality checks.
 * :white_check_mark: Dockerization with focus in image size optimization.
 * :white_check_mark: Continuous Integration (CI) workflows (GitHub Actions).
-* :white_check_mark: Continuous Deployment (CI) workflows (Google Cloud Build).
+* :white_check_mark: Continuous Deployment (CD) workflows (Google Cloud Build).
 * :white_check_mark: Makefile with shortcuts to increase development speed.
 * :white_check_mark: README badges with project information.
 * :white_check_mark: Development workflow documentation.
@@ -45,8 +45,7 @@ A template for Python applications.
 [pytest]: https://docs.pytest.org/en/stable/
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
 
-[cli.py]: src/python_app_template/cli.py
-[examples]: examples/
+[cli/main.py]: src/python_app_template/cli/main.py
  
 
 [.github/]: .github/
@@ -73,7 +72,6 @@ A template for Python applications.
 [Makefile]: Makefile
 [MANIFEST.in]: MANIFEST.in
 [pyproject.toml]: pyproject.toml
-[pytest.ini]: pytest.ini
 [README.md]: README.md
 [requirements.txt]: requirements.txt
 [requirements-test.txt]: requirements-test.txt
@@ -221,7 +219,7 @@ _Write instructions on how to use the CLI of the application here._
 _**Optional**_.
 _Provide an example of an input configuration file._
 
-## Output schema.
+## Output schema
 
 _**Optional**_.
 _Discuss any relevant details about the schema.
@@ -260,7 +258,7 @@ Example:
 
 | Module | Description |
 | --- | --- |
-| [cli.py]     | Defines the application CLI. |
+| [cli/main.py] | Defines the application CLI. |
 
 </div>
 
