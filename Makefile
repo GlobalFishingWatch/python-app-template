@@ -56,13 +56,13 @@ docker-shell: docker-volume
 reqs:
 	docker compose run --rm ${DOCKER_AS_USER} ${DOCKER_DEV_NO_GCP_SERVICE} -c \
 		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -v && \
-		${PIP_COMPILE} --group test -c ${REQS_PROD} -o ${REQS_TEST} ${SETUP_FILE} -v'
+		${PIP_COMPILE} --group ${SETUP_FILE}:test -c ${REQS_PROD} -o ${REQS_TEST} -v'
 
 .PHONY: reqs-upgrade  ## Upgrades requirements.txt and requirements-test.txt with uv.
 reqs-upgrade:
 	docker compose run --rm ${DOCKER_AS_USER} ${DOCKER_DEV_NO_GCP_SERVICE} -c \
 		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -U -v && \
-		${PIP_COMPILE} --group test -c ${REQS_PROD} -o ${REQS_TEST} ${SETUP_FILE} -U -v'
+		${PIP_COMPILE} --group ${SETUP_FILE}:test -c ${REQS_PROD} -o ${REQS_TEST} -U -v'
 
 # ---------------------
 # VIRTUAL ENVIRONMENT
