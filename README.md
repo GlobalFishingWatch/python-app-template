@@ -19,12 +19,12 @@ A template for Python applications.
 
 **Features**:
 * :white_check_mark: Standard Python project structure & packaging.
-* :white_check_mark: Dependency management with [pip-tools].
+* :white_check_mark: Dependency management with [uv].
 * :white_check_mark: Tools for quality checks: documentation, [PEP8], typehints, codespell.
 * :white_check_mark: **[Optional]** pre-commit hooks to enforce automatic quality checks.
 * :white_check_mark: Dockerization with focus in image size optimization.
 * :white_check_mark: Continuous Integration (CI) workflows (GitHub Actions).
-* :white_check_mark: Continuous Deployment (CI) workflows (Google Cloud Build).
+* :white_check_mark: Continuous Deployment (CD) workflows (Google Cloud Build).
 * :white_check_mark: Makefile with shortcuts to increase development speed.
 * :white_check_mark: README badges with project information.
 * :white_check_mark: Development workflow documentation.
@@ -40,20 +40,19 @@ A template for Python applications.
 [Markdown alerts]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
 [mermaid diagram]: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
 [PEP8]: https://peps.python.org/pep-0008/
-[pip-tools]: https://pip-tools.readthedocs.io/en/stable/
+[uv]: https://docs.astral.sh/uv/
 [pre-commit]: https://pre-commit.com
 [pytest]: https://docs.pytest.org/en/stable/
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
 
-[cli.py]: src/python_app_template/cli.py
-[docs/contributing]: docs/contributing
-[examples]: examples/
- 
+[cli/main.py]: src/python_app_template/cli/main.py
+
 
 [.github/]: .github/
+[cloudbuild/]: cloudbuild/
 [docs/]: docs/
 [notebooks/]: notebooks/
-[src/python_app_template/]: src/python_app_template 
+[src/python_app_template/]: src/python_app_template
 [src/python_app_template/assets/]: src/python_app_template/assets/
 [tests/]: tests/
 
@@ -62,18 +61,17 @@ A template for Python applications.
 [.gitignore]: .gitignore
 [.pre-commit-config.yaml]: .pre-commit-config.yaml
 [activate-venv.sh]: activate-venv.sh
-[cloudbuild.yaml]: cloudbuild.yaml
 [codecov.yml]: codecov.yml
 [CONTRIBUTING.md]: CONTRIBUTING.md
+[contributing guide]: https://github.com/GlobalFishingWatch/python-app-template/blob/main/CONTRIBUTING.md
 [docker-compose.yml]: docker-compose.yml
 [Dockerfile]: Dockerfile
-[Git Workflow]: CONTRIBUTING.md#git-workflow
+[Git Workflow]: https://github.com/GlobalFishingWatch/python-app-template/blob/main/CONTRIBUTING.md#git-workflow
 [init_project.py]: init_project.py
 [LICENSE]: LICENSE
 [Makefile]: Makefile
 [MANIFEST.in]: MANIFEST.in
 [pyproject.toml]: pyproject.toml
-[pytest.ini]: pytest.ini
 [README.md]: README.md
 [requirements.txt]: requirements.txt
 [requirements-test.txt]: requirements-test.txt
@@ -96,7 +94,7 @@ Goals of this template include:
 * Minimizing the effort required to transition prototypes to production.
 * Establishing consistent development standards across projects.
 
-## Usage 
+## Usage
 
 _Write the relevant documentation on how to use this application here.
 Ideally, organize it into sections_.
@@ -124,7 +122,8 @@ and incrementally builds upon the requirements of the previous stages.
 1. 💡 **Proof of Concept**  
    - Update the project's name with `python init_project.py my-project-name`.
    - Declare required dependencies in [pyproject.toml].
-     Use the `dev` extra for development-only dependencies.
+     Use the `dev` extra for development-only dependencies,
+     and the `test` dependency group for test dependencies.
    - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/my_project_name/assets/` directory.
    - Add the following sections to the `README.md`:  
      - **Introduction**  
@@ -133,7 +132,7 @@ and incrementally builds upon the requirements of the previous stages.
 2. 🛠️ **Prototype**  
    - Set up [branch protection rules] for `main` branch (and `develop` if exists).
      - ☑️ Restrict deletions.
-     - ☑️ Require a pull request before merging. 
+     - ☑️ Require a pull request before merging.
        - ☑️ Require approvals.
        - ☑️ Require conversation resolution before merging.
      - ☑️ Require status checks to pass. Add GitHub actions to checks.
@@ -141,7 +140,8 @@ and incrementally builds upon the requirements of the previous stages.
      - ☑️ Block force pushes.
      - ☑️ Allowed merge methods: only Merge.
    - Select a [Git Workflow] to maintain consistent branching and collaboration practices.
-   - Set up Google Cloud Build triggers to automatically publish the Docker image upon merges.
+   - Create the Google Cloud Build triggers that publish the Docker image upon merges and tags:
+     run `terraform init` and `terraform apply` in [cloudbuild/].
    - Re-compile `requirements.txt` for Docker using:
      ```
      make reqs
@@ -150,7 +150,7 @@ and incrementally builds upon the requirements of the previous stages.
      - **Output Schema**
 
 3. 🚀 **Production**  
-   - Install and configure pre-commit hooks. See [CONTRIBUTING.md].
+   - Install and configure pre-commit hooks. See the [contributing guide].
    - Add unit tests to ensure code reliability.
    - Write thorough documentation:  
      - A complete `README.md`.
@@ -171,6 +171,7 @@ This is a brief summary of all the relevant directories of the repository.
 | Directory                       | Description                                                                     |
 | ------------------------------- | ------------------------------------------------------------------------------- |
 |[.github/]                       | Configuration for GitHub actions.                                               |
+|[cloudbuild/]                    | Terraform config for the Cloud Build triggers.                                  |
 |[docs/]                          | Markdown files with detailed documentation.                                     |
 |[notebooks/]                     | All jupyter notebooks go here.                                                  |
 |[src/python_app_template/]       | All source code go here.                                                        |
@@ -192,9 +193,8 @@ This is a brief summary of all the relevant files of the repository.
 |[.gitignore]                    | List of files and directories to be ignored by git.                             |
 |[.pre-commit-config.yaml]       | Configuration to automate software quality checks.                              |
 |[activate-venv.sh]              | Simple shortcut to enter virtual environment.                                   |
-|[cloudbuild.yaml]               | Configuration to build and publish docker images in Google Cloud.               |
 |[codecov.yml]                   | Configuration for [codecov] GitHub integration.                                 |
-|[CONTRIBUTING.md]               | A guide for contributing to the project.                                        |
+|[CONTRIBUTING.md]               | Contributing guide shared by all projects created from this template.           |
 |[docker-compose.yml]            | Configuration for [docker compose].                                             |
 |[Dockerfile]                    | Instructions for building the Docker image.                                     |
 |[init_project.py]               | Automates changing the project name across relevant files and directories.      |
@@ -203,7 +203,7 @@ This is a brief summary of all the relevant files of the repository.
 |[MANIFEST.in]                   | Set of patterns to include or exclude files from installed package.             |
 |[pyproject.toml]                | Modern Python packaging configuration file.                                     |
 |[requirements.txt]              | Full set of compiled production dependencies (pinned to specific versions).     |
-|[requirements-test.txt]         | High level test dependencies needed to test the installed package.              |
+|[requirements-test.txt]         | Compiled test dependencies, installed on top of the production image to test it.|
 |[README.md]                     | This file.                                                                      |
 |[setup.py]                      | Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
 
@@ -220,7 +220,7 @@ _Write instructions on how to use the CLI of the application here._
 _**Optional**_.
 _Provide an example of an input configuration file._
 
-## Output schema.
+## Output schema
 
 _**Optional**_.
 _Discuss any relevant details about the schema.
@@ -233,7 +233,16 @@ _Explain the data persistence pattern used in this application._
 
 ## How to Contribute
 
-Please read the guidelines in [CONTRIBUTING.md].
+First, clone the repository:
+
+```shell
+git clone https://github.com/GlobalFishingWatch/python-app-template.git
+cd python-app-template
+```
+
+Then, from the cloned repository, follow the [contributing guide]
+(shared by all projects created from this template)
+to prepare the development environment and learn the git workflow.
 
 ## Implementation details
 
@@ -250,7 +259,7 @@ Example:
 
 | Module | Description |
 | --- | --- |
-| [cli.py]     | Defines the application CLI. |
+| [cli/main.py] | Defines the application CLI. |
 
 </div>
 

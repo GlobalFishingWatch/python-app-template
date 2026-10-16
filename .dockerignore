@@ -1,3 +1,7 @@
+.git
+.venv
+cloudbuild
+
 tests/test_init_project.py
 
 **/__pycache__/

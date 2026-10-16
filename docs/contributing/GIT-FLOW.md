@@ -10,7 +10,7 @@ In the following, **X**, **Y** and **Z** refer to **MAJOR**, **MINOR** and **PAT
 
 These are the 5 types of branches used in this strategy:
 | Name            | Type      | Purpose                                                                          |
-|-----------------|-----------|----------------------------------------------------------------------------------|
+|-----------------|-----------|------------------------------------------------------------------------------------|
 | `main`          | Permanent | Represents the production-ready state; all releases originate here.              |
 | `develop`       | Permanent | The integration branch for ongoing development; features are merged here.        |
 | `feature/*`     | Temporary | Branches for developing new features, branched off from `develop`.               |

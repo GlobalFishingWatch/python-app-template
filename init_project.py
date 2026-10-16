@@ -1,12 +1,19 @@
 """Renames a Python project by replacing the template name in files and directories."""
 import sys
+import shutil
 import pathlib
 
 OLD_NAME = "python-app-template"
 
+# The contributing guide is shared by all projects created from this template:
+# new projects link to it instead of keeping a copy.
+CONTRIBUTING_GUIDE_URL = (
+    f"https://github.com/GlobalFishingWatch/{OLD_NAME}/blob/main/CONTRIBUTING.md"
+)
+
 FILES_TO_UPDATE = (
-    "cloudbuild.yaml",
-    "CONTRIBUTING.md",
+    "cloudbuild/backend.tf",
+    "cloudbuild/main.tf",
     "docker-compose.yml",
     "Makefile",
     "pyproject.toml",
@@ -15,6 +22,11 @@ FILES_TO_UPDATE = (
     "tests/test_assets.py",
     "tests/test_version.py",
     "tests/cli/test_main.py",
+)
+
+PATHS_TO_REMOVE = (
+    "CONTRIBUTING.md",
+    "docs/contributing",
 )
 
 VERSION_FILE_TPL = "{src_dir}/{old_name}/version.py"
@@ -48,11 +60,25 @@ class Name:
 
 
 def _replace_in_file(filepath: pathlib.Path, old_new_pairs: list[tuple[str, str]]) -> None:
-    content = filepath.read_text(encoding="utf-8")
+    # Links to the shared contributing guide must keep pointing to the template.
+    parts = filepath.read_text(encoding="utf-8").split(CONTRIBUTING_GUIDE_URL)
     for old, new in old_new_pairs:
-        content = content.replace(old, new)
+        parts = [part.replace(old, new) for part in parts]
 
-    filepath.write_text(content, encoding="utf-8")
+    filepath.write_text(CONTRIBUTING_GUIDE_URL.join(parts), encoding="utf-8")
+
+
+def _remove_path(path: pathlib.Path) -> None:
+    if not path.exists():
+        print(f"⏭️ Skipped (not found): {path}")
+        return
+
+    if path.is_dir():
+        shutil.rmtree(path)
+    else:
+        path.unlink()
+
+    print(f"🗑️ Removed: {path}")
 
 
 def _rename_package_dir(src_dir: pathlib.Path, old_name: str, new_name: str) -> None:
@@ -100,11 +126,18 @@ def update_project_name(
     print(f"🎉 Project renamed to: {new_name.with_dashes}.")
 
 
+def remove_template_only_paths(paths_to_remove: tuple[str, ...] = PATHS_TO_REMOVE) -> None:
+    """Removes files that only belong to the template, like the shared contributing guide."""
+    for path in paths_to_remove:
+        _remove_path(pathlib.Path(path))
+
+
 def main(
     args: list[str] = sys.argv,
     old_name: str = OLD_NAME,
     files_to_update: tuple[str, ...] = FILES_TO_UPDATE,
-    src_dir: pathlib.Path = SOURCE_DIR
+    src_dir: pathlib.Path = SOURCE_DIR,
+    paths_to_remove: tuple[str, ...] = PATHS_TO_REMOVE,
 ):
     """Entry point for the script.
 
@@ -129,6 +162,7 @@ def main(
         files_to_update=tuple(files_to_update),
         src_dir=src_dir
     )
+    remove_template_only_paths(paths_to_remove)
 
 
 if __name__ == "__main__":

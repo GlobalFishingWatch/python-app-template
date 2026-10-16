@@ -27,7 +27,17 @@ def test_main_renames_project(tmp_path):
 
     # Create a single additional file to update
     readme = tmp_path / "README.md"
-    readme.write_text("Welcome to python-app-template!\n")
+    readme.write_text(
+        "Welcome to python-app-template!\n"
+        f"See the [contributing guide]({init_project.CONTRIBUTING_GUIDE_URL}).\n"
+    )
+
+    # Create the template-only files
+    contributing = tmp_path / "CONTRIBUTING.md"
+    contributing.write_text("# How to Contribute\n")
+    contributing_docs = tmp_path / "docs" / "contributing"
+    contributing_docs.mkdir(parents=True)
+    (contributing_docs / "GITHUB-FLOW.md").write_text("# GitHub Flow\n")
 
     # Run main()
     args = ["init_project.py", new_name]
@@ -36,14 +46,20 @@ def test_main_renames_project(tmp_path):
         args=args,
         old_name=old_name,
         files_to_update=files_to_update,
-        src_dir=src_dir
+        src_dir=src_dir,
+        paths_to_remove=(str(contributing), str(contributing_docs)),
     )
 
     # Check that file was updated
     updated_readme = readme.read_text()
     print(updated_readme)
     assert "my-project" in updated_readme
-    assert "python-app-template" not in updated_readme
+    assert "Welcome to my-project!" in updated_readme
+    assert init_project.CONTRIBUTING_GUIDE_URL in updated_readme
+
+    # Check that template-only files were removed
+    assert not contributing.exists()
+    assert not contributing_docs.exists()
 
     # Check that version file was updated
     new_pkg_dir = src_dir / new_dir_name
@@ -134,3 +150,12 @@ def test_main_usage_message_on_bad_args(capsys):
 
     assert expected_usage in captured.out
     assert exc_info.value.code == 1
+
+
+def test_remove_template_only_paths_skips_missing_path(tmp_path, capsys):
+    missing_path = tmp_path / "missing_dir"
+
+    init_project.remove_template_only_paths(paths_to_remove=(str(missing_path),))
+
+    captured = capsys.readouterr()
+    assert f"⏭️ Skipped (not found): {missing_path}" in captured.out
