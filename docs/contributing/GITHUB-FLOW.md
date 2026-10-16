@@ -60,8 +60,11 @@ This flow emphasizes **simplicity, speed, and collaboration**, especially for te
   git merge branch_name --no-ff
   ```
 
+- Maintain a clean commit history in your feature branch.
+  Use interactive rebase (`git rebase -i`) to squash, reorder, or edit commits.[^1]
+
 [^1]: When performing a rebase, it's acceptable to `push --force` to your own feature branch,
       but **never** on shared branches.
-      Protect `main` and/or `develop` from force pushes via GitHub settings.  
+      Protect `main` and/or `develop` from force pushes via GitHub settings.
 
 </div>

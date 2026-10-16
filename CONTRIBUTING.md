@@ -1,158 +1,159 @@
-[docker compose]: https://docs.docker.com/compose/install/linux/
-[docker official instructions]: https://docs.docker.com/engine/install/
-[Git Flow]: https://nvie.com/posts/a-successful-git-branching-model/
-[GitHub Flow]: https://githubflow.github.io
-[PEP8]: https://peps.python.org/pep-0008/
-[pre-commit]: https://pre-commit.com
-[How to Write a Git Commit Message]: https://cbea.ms/git-commit/
-[interactive rebase]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+# How to Contribute
 
-[Makefile]: Makefile
-[pip-tools]: https://pip-tools.readthedocs.io/en/stable/
-[pyproject.toml]: pyproject.toml
-[requirements.txt]: requirements.txt
-[requirements-test.txt]: requirements-test.txt
-
-[GIT-FLOW.md]: docs/contributing/GIT-FLOW.md
-[GITHUB-FLOW.md]: docs/contributing/GITHUB-FLOW.md
-
-[Preparing the environment]: #preparing-the-environment
+[Preparing the development environment]: #preparing-the-development-environment
 [Updating dependencies]: #updating-dependencies
 [Git Workflow]: #git-workflow
 [How to work on a feature branch]: #how-to-work-on-a-feature-branch
 [How to deploy]: #how-to-deploy
-
-# How to Contribute
+[GitHub Flow]: https://githubflow.github.io/
+[Git Flow]: https://nvie.com/posts/a-successful-git-branching-model/
+[GITHUB-FLOW.md]: docs/contributing/GITHUB-FLOW.md
+[GIT-FLOW.md]: docs/contributing/GIT-FLOW.md
+[How to Write a Git Commit Message]: https://cbea.ms/git-commit/
+[interactive rebase]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+[pre-commit]: https://pre-commit.com
+[PEP8]: https://peps.python.org/pep-0008/
+[docker official instructions]: https://docs.docker.com/engine/install/
+[docker compose]: https://docs.docker.com/compose/install/linux/
+[uv]: https://docs.astral.sh/uv/
 
 <div align="justify">
 
-These guidelines aim to maintain code quality,
-clearly communicate the state of the codebase,
+These guidelines apply to GFW's Python repositories created from this template,
+pipelines and services alike.
+They describe the tooling the template ships (`Makefile`, Docker, uv),
+so they live here, next to it, and each repository links to them from its README.
+They aim to maintain code quality, clearly communicate the state of the codebase,
 and standardize the development workflow.
-Use your best judgment, and feel free to propose changes
-to the guidelines by submitting a pull request.
+Use your best judgment, and feel free to propose changes by submitting a pull request.
 
 </div>
 
 ## Table of Contents
 
-- [Preparing the environment]
+- [Preparing the development environment]
 - [Updating dependencies]
 - [Git Workflow]
 - [How to work on a feature branch]
 - [How to deploy]
 
-
-## Preparing the environment
+## Preparing the development environment
 
 <div align="justify">
 
-Install Docker Engine using the [docker official instructions] (avoid snap packages)
-and the [docker compose] plugin. No other system dependencies are required.
+This is the common setup shared across repositories created from this template.
+It assumes you already cloned the repository, as its README explains,
+and that you run every command from the root of the cloned repository.
+A given repository's README may add repository-specific system dependencies on top of this
+(e.g. GDAL) -- check there first if something doesn't build.
 
-1. First, clone the repository.
-```shell
-git clone https://github.com/GlobalFishingWatch/python-app-template.git
-```
+Install Docker Engine using the [docker official instructions] (avoid snap packages) and
+the [docker compose] plugin.
 
-2. Make sure you can build the docker image:
+</div>
+
+1. Make sure you can build the docker image:
+
 ```shell
 make docker-build
 ```
 
-3. In order to be able to connect to BigQuery, authenticate and configure the project:
+2. In order to be able to connect to Google Cloud (e.g. BigQuery),
+authenticate and configure the project:
+
 ```shell
 make docker-gcp
 ```
 
-Install UV for faster installs (otherwise modify Makefile to use regular pip): 
+> [!NOTE]
+> If you'd rather do all development inside a Docker container instead of a local
+> virtual environment, run `make docker-shell` to get a shell with everything already
+> installed, skip steps 3-6 below, and go directly to step 7 -- `make test` works the
+> same way once you're inside that shell as it does in a local venv.
+
+3. Install [uv] (faster installs than plain pip):
+
 ```shell
 make uv
 ```
 
-4. Create virtual environment and activate it:
+4. Create a virtual environment and activate it:
+
 ```shell
 make venv
-./.venv/bin/activate
+. .venv/bin/activate
 ```
 
-5. Install all dependencies for development and the python package in editable mode:
+The activation script must be sourced (`.` or `source`), not executed:
+running `./.venv/bin/activate` would only affect a subshell.
+
+5. Install all dependencies and the package itself in editable mode:
+
 ```shell
 make install
 ```
 
-6. (Optional) Install [pre-commit] hooks:
+6. (Optional) Install the [pre-commit] hooks:
+
 ```shell
 make hooks
 ```
-This step is strongly recommended to maintain code quality and prevent technical debt,
+
+This is strongly recommended to maintain code quality and prevent technical debt,
 particularly regarding documentation, [PEP8] compliance, spelling, and type-hinting.
-If this feels too rigid for your current workflow,
-at a minimum, make regular use of the provided [Makefile] commands:
-`format`, `lint`, `codespell`, and `typecheck`.
+If this feels too rigid for your current workflow, at a minimum,
+make regular use of the `Makefile`'s `format`, `lint`, `codespell`, and `typecheck` targets.
+[PEP8] checks are enforced in the GitHub CI.
 
-[PEP8] checks will be enforced in the GitHub CI.
+7. Make sure you can run the unit tests:
 
-7. Make sure you can run unit tests:
 ```shell
 make test
 ```
-</div>
-
-> [!NOTE]
-> Alternatively,
-  you can handle all the development inside a docker container
-  without installing dependencies in a virtual environment.
-  Use `make docker-shell` to enter a docker container.
-
 
 ## Updating dependencies
 
 <div align="justify">
 
-The [requirements.txt] file contains all transitive dependencies pinned to specific versions.
-It is automatically generated using [pip-tools],
-based on the dependencies specified in [pyproject.toml].
-This process ensures reproducibility,
-allowing the application to run consistently across different environments.
+`requirements.txt` contains all transitive dependencies pinned to specific versions. It
+is automatically generated with `uv pip compile`, based on the dependencies specified in
+`pyproject.toml`. This process ensures reproducibility, allowing the application to run
+consistently across different environments.
 
-Use [pyproject.toml] to define high-level dependencies with flexible version constraints
-(e.g., ~=1.2, >=1.0, <2.0, ...).
+Use `pyproject.toml` to define high-level dependencies with flexible version constraints
+(e.g., `~=1.2`, `>=1.0`, `<2.0`, ...).
 
-To re-compile dependencies, just run
+Every repository's `Makefile` is self-documenting -- run `make help` (or bare `make`) to
+see its exact current targets and descriptions. The typical names are:
+
 ```shell
-make reqs
+make reqs           # re-compile requirements.txt
+make reqs-upgrade   # upgrade all dependencies to their latest compatible versions
 ```
 
-If you want to upgrade all dependencies to latest compatible versions, just run:
-```shell
-make reqs-upgrade
-```
 </div>
 
 > [!IMPORTANT]
-> Do not modify [requirements.txt] manually.
+> Do not modify `requirements.txt` manually.
 
 > [!NOTE]
-> Remember that if you change the [requirements.txt],
-you need to rebuild the docker image (`make docker-build`) in order to use it locally.
+> After changing `requirements.txt`, rebuild the docker image (`make docker-build`)
+> to use it locally.
+> If the project uses Apache Beam, keep the Beam SDK image in the `Dockerfile`
+> at the same version as the `apache-beam` pin in `requirements.txt`.
 
 ## Git Workflow
 
 <div align="justify">
 
-There are two main Git workflows commonly used in software development:
-[Git Flow] and [GitHub Flow].
-We encourage using **GitHub Flow** whenever possible,
-as it is a lightweight workflow that supports rapid iteration,
-continuous delivery, and simpler branching.
-It works especially well for teams that deploy frequently
-and want to keep their main branch always production-ready.
-However,
-if your project involves a long release cycle and a long release process,
-or you need an unstable shared branch like develop for ongoing integration,
-then **Git Flow** may be more appropriate.
-You can read a summary of both workflows in [GITHUB-FLOW.md] and [GIT-FLOW.md].
+There are two main Git workflows commonly used in software development: [Git Flow] and
+[GitHub Flow]. We encourage using **GitHub Flow** whenever possible, as it's a
+lightweight workflow that supports rapid iteration, continuous delivery, and simpler
+branching. It works especially well for teams that deploy frequently and want to keep
+`main` always production-ready. However, if a project involves a long release cycle and
+a long release process, or needs an unstable shared branch like `develop` for ongoing
+integration, then **Git Flow** may be more appropriate. You can read a summary of both
+workflows in [GITHUB-FLOW.md] and [GIT-FLOW.md].
 
 </div>
 
@@ -160,39 +161,27 @@ You can read a summary of both workflows in [GITHUB-FLOW.md] and [GIT-FLOW.md].
 
 <div align="justify">
 
-To work on a new feature or fix,
-create a branch from `main` or `develop`,
-depending on the workflow your team follows.
+To work on a new feature or fix, create a branch from `main` (or `develop`, depending
+on the workflow the repository follows).
 
-Try to follow these guidelines:
-
-- Branch names should be descriptive and concise,
-  all lowercase and with words separated by hyphens "-".
-  Optionally, feature branch names can be prefixed with **JIRA** ticket.
-  For example, you can use something like `PIPELINE-2020-name-of-the-branch`.
-
+- Branch names should be descriptive and concise, all lowercase and with words separated
+  by hyphens. Optionally, prefix with the **JIRA** ticket, e.g.
+  `PIPELINE-2020-name-of-the-branch`.
 - Write clear commit messages. See [How to Write a Git Commit Message].
+- Maintain a clean commit history in your feature branch. Use [interactive rebase]
+  (`git rebase -i`) to squash, reorder, or edit commits.[^1]
+- If you're not using [pre-commit] hooks, run the `Makefile`'s quality-check targets
+  (`format`, `lint`, `codespell`, `typecheck`) as much as possible before pushing.
+- Add unit tests for each piece of code: avoid connecting to external services during
+  tests (mock as needed), and keep tests fast.
+- When opening a pull request:
+  - Target the correct base branch, depending on the repository's [Git Workflow].
+  - Keep it focused and limited in scope to simplify review.
+  - Link the related **JIRA** ticket in the description.
 
-- Maintain a clean commit history in your feature branch.
-  Use interactive rebase (`git rebase -i`) to squash, reorder, or edit commits.[^1]
-  
-- If you are not using [pre-commit] hooks,
-  use the provided [Makefile] commands (`format`, `lint`, `codespell`, `typecheck`)
-  as much as possible to maintain code quality.
-
-- Add unit tests for each piece of code:
-  * Avoid connecting to external services during unit tests. Use mocks as needed.
-  * Ensure unit tests run as fast as possible.
-
-- When submitting a Pull Request (**PR**), ensure it meets the following criteria:
-  * It targets the correct base branch (depending on the chosen [Git Workflow]).
-  * It is focused and limited in scope to simplify the review process.
-  * Its description includes a link to the related **JIRA** ticket
-    to support integration between the issue and the **PR**.
-
-[^1]: When performing a rebase, it's acceptable to `push --force` to your own feature branch,
-      but **never** on shared branches.
-      Protect `main` and/or `develop` from force pushes via GitHub settings.
+[^1]: When performing a rebase, it's acceptable to `push --force` to your own feature
+      branch, but **never** on shared branches. Protect `main` and/or `develop` from
+      force pushes via GitHub settings.
 
 </div>
 
@@ -200,9 +189,10 @@ Try to follow these guidelines:
 
 <div align="justify">
 
-A Google Cloud build that publishes a Docker image is triggered in the following cases:  
-- When a commit is merged into `main` or `develop`.  
-- When a new tag is created.
+A Google Cloud Build that publishes a Docker image is triggered in either of these
+cases:
 
+- A commit is merged into `main` (or `develop`, for repositories using Git Flow).
+- A new tag is created.
 
 </div>

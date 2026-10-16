@@ -19,7 +19,7 @@ A template for Python applications.
 
 **Features**:
 * :white_check_mark: Standard Python project structure & packaging.
-* :white_check_mark: Dependency management with [pip-tools].
+* :white_check_mark: Dependency management with [uv].
 * :white_check_mark: Tools for quality checks: documentation, [PEP8], typehints, codespell.
 * :white_check_mark: **[Optional]** pre-commit hooks to enforce automatic quality checks.
 * :white_check_mark: Dockerization with focus in image size optimization.
@@ -40,13 +40,12 @@ A template for Python applications.
 [Markdown alerts]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
 [mermaid diagram]: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
 [PEP8]: https://peps.python.org/pep-0008/
-[pip-tools]: https://pip-tools.readthedocs.io/en/stable/
+[uv]: https://docs.astral.sh/uv/
 [pre-commit]: https://pre-commit.com
 [pytest]: https://docs.pytest.org/en/stable/
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
 
 [cli.py]: src/python_app_template/cli.py
-[docs/contributing]: docs/contributing
 [examples]: examples/
  
 
@@ -65,9 +64,10 @@ A template for Python applications.
 [cloudbuild.yaml]: cloudbuild.yaml
 [codecov.yml]: codecov.yml
 [CONTRIBUTING.md]: CONTRIBUTING.md
+[contributing guide]: https://github.com/GlobalFishingWatch/python-app-template/blob/main/CONTRIBUTING.md
 [docker-compose.yml]: docker-compose.yml
 [Dockerfile]: Dockerfile
-[Git Workflow]: CONTRIBUTING.md#git-workflow
+[Git Workflow]: https://github.com/GlobalFishingWatch/python-app-template/blob/main/CONTRIBUTING.md#git-workflow
 [init_project.py]: init_project.py
 [LICENSE]: LICENSE
 [Makefile]: Makefile
@@ -150,7 +150,7 @@ and incrementally builds upon the requirements of the previous stages.
      - **Output Schema**
 
 3. 🚀 **Production**  
-   - Install and configure pre-commit hooks. See [CONTRIBUTING.md].
+   - Install and configure pre-commit hooks. See the [contributing guide].
    - Add unit tests to ensure code reliability.
    - Write thorough documentation:  
      - A complete `README.md`.
@@ -194,7 +194,7 @@ This is a brief summary of all the relevant files of the repository.
 |[activate-venv.sh]              | Simple shortcut to enter virtual environment.                                   |
 |[cloudbuild.yaml]               | Configuration to build and publish docker images in Google Cloud.               |
 |[codecov.yml]                   | Configuration for [codecov] GitHub integration.                                 |
-|[CONTRIBUTING.md]               | A guide for contributing to the project.                                        |
+|[CONTRIBUTING.md]               | Contributing guide shared by all projects created from this template.           |
 |[docker-compose.yml]            | Configuration for [docker compose].                                             |
 |[Dockerfile]                    | Instructions for building the Docker image.                                     |
 |[init_project.py]               | Automates changing the project name across relevant files and directories.      |
@@ -233,7 +233,16 @@ _Explain the data persistence pattern used in this application._
 
 ## How to Contribute
 
-Please read the guidelines in [CONTRIBUTING.md].
+First, clone the repository:
+
+```shell
+git clone https://github.com/GlobalFishingWatch/python-app-template.git
+cd python-app-template
+```
+
+Then, from the cloned repository, follow the [contributing guide]
+(shared by all projects created from this template)
+to prepare the development environment and learn the git workflow.
 
 ## Implementation details
 
