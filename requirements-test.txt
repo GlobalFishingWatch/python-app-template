@@ -2,8 +2,28 @@
 #    uv pip compile --group test -c requirements.txt -o requirements-test.txt pyproject.toml
 coverage==7.16.2
     # via pytest-cov
+gfw-common==0.20.2
+    # via
+    #   -c requirements.txt
+    #   python-app-template (pyproject.toml)
 iniconfig==2.3.1
     # via pytest
+jinja2==3.1.6
+    # via
+    #   -c requirements.txt
+    #   gfw-common
+markdown-it-py==4.2.0
+    # via
+    #   -c requirements.txt
+    #   rich
+markupsafe==3.0.4
+    # via
+    #   -c requirements.txt
+    #   jinja2
+mdurl==0.1.2
+    # via
+    #   -c requirements.txt
+    #   markdown-it-py
 packaging==26.3
     # via pytest
 pluggy==1.7.0
@@ -11,7 +31,10 @@ pluggy==1.7.0
     #   pytest
     #   pytest-cov
 pygments==2.21.0
-    # via pytest
+    # via
+    #   -c requirements.txt
+    #   pytest
+    #   rich
 pytest==9.1.1
     # via
     #   python-app-template (pyproject.toml:test)
@@ -21,3 +44,19 @@ pytest-cov==7.1.0
     # via python-app-template (pyproject.toml:test)
 pytest-mock==3.16.0
     # via python-app-template (pyproject.toml:test)
+python-dateutil==2.9.0.post0
+    # via
+    #   -c requirements.txt
+    #   gfw-common
+pyyaml==6.0.3
+    # via
+    #   -c requirements.txt
+    #   gfw-common
+rich==14.3.4
+    # via
+    #   -c requirements.txt
+    #   gfw-common
+six==1.17.0
+    # via
+    #   -c requirements.txt
+    #   python-dateutil

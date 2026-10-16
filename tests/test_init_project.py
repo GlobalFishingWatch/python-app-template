@@ -32,6 +32,14 @@ def test_main_renames_project(tmp_path):
         f"See the [contributing guide]({init_project.CONTRIBUTING_GUIDE_URL}).\n"
     )
 
+    # Create tests that import the package, and init_project's own tests
+    tests_dir = tmp_path / "tests"
+    tests_dir.mkdir()
+    test_module = tests_dir / "test_module.py"
+    test_module.write_text("from python_app_template import module\n")
+    init_project_tests = tests_dir / "test_init_project.py"
+    init_project_tests.write_text('OLD_NAME = "python-app-template"\n')
+
     # Create the template-only files
     contributing = tmp_path / "CONTRIBUTING.md"
     contributing.write_text("# How to Contribute\n")
@@ -48,6 +56,7 @@ def test_main_renames_project(tmp_path):
         files_to_update=files_to_update,
         src_dir=src_dir,
         paths_to_remove=(str(contributing), str(contributing_docs)),
+        tests_dir=tests_dir,
     )
 
     # Check that file was updated
@@ -56,6 +65,10 @@ def test_main_renames_project(tmp_path):
     assert "my-project" in updated_readme
     assert "Welcome to my-project!" in updated_readme
     assert init_project.CONTRIBUTING_GUIDE_URL in updated_readme
+
+    # Check that tests were updated, except init_project's own tests
+    assert test_module.read_text() == "from my_project import module\n"
+    assert init_project_tests.read_text() == 'OLD_NAME = "python-app-template"\n'
 
     # Check that template-only files were removed
     assert not contributing.exists()

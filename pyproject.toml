@@ -28,7 +28,9 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 requires-python = ">= 3.12"
-dependencies = []
+dependencies = [
+    "gfw-common~=0.20.2",
+]
 
 [project.urls]
 Homepage = "https://github.com/GlobalFishingWatch/python-app-template"

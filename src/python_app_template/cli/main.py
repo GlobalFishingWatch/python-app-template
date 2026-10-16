@@ -1,17 +1,39 @@
+"""Command-line interface of the application, built on gfw-common's CLI."""
+
 import sys
-import logging
 
-from ..version import __version__
+from typing import Any
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-
-def run(args: list):
-    logger.info("Starting APP (v{})...".format(__version__))
+from gfw.common.cli import CLI, labels_option
+from python_app_template.cli.commands import Hello
+from python_app_template.version import __version__
 
 
-def main():  # Entry point for the python package.
+NAME = "python-app-template"
+DESCRIPTION = "A template for python (dockerized) applications."
+EXAMPLES = (
+    "python-app-template hello --name GFW --times 2 --labels environment=development",
+    "python-app-template hello -c config/hello/sample.yaml",
+)
+
+
+def run(args: list[str]) -> Any:
+    """Builds the CLI and executes the command given in ``args``."""
+    cli = CLI(
+        name=NAME,
+        description=DESCRIPTION,
+        subcommands=[Hello],
+        options=[labels_option()],  # Common options for all subcommands.
+        version=__version__,
+        examples=EXAMPLES,
+    )
+
+    result, _ = cli.execute(args)
+    return result
+
+
+def main() -> None:
+    """Entry point of the installed package."""
     run(sys.argv[1:])
 
 
