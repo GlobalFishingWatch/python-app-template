@@ -48,7 +48,8 @@ jobs:
         run: make uv
 
       - name: Create virtual environment
-        run: uv venv $VENV
+        # make uv pins .python-version to 3.12; --python makes the venv use the matrix version.
+        run: uv venv --python ${{ matrix.python-version }} $VENV
 
       - name: Install package with test dependencies
         run: |
@@ -62,7 +63,7 @@ jobs:
           make test
 
       - name: Upload coverage reports to Codecov
-        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && matrix.python-version == '3.12'
+        if: github.ref == 'refs/heads/main'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -71,7 +72,7 @@ jobs:
     name: tests - Python 3.12 on Docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Python
         uses: actions/setup-python@v6
   
