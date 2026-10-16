@@ -111,7 +111,7 @@ lint:
 
 .PHONY: codespell  ## Use Codespell to do spell checking.
 codespell:
-	python -m codespell
+	python -m codespell_lib
 
 .PHONY: typecheck  ## Perform type-checking.
 typecheck:
