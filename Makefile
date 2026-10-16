@@ -63,7 +63,7 @@ reqs-upgrade:
 # ---------------------
 
 .PHONY: uv  ## Installs UV
-uv: 
+uv:
 	curl -LsSf https://astral.sh/uv/install.sh | UV_VERSION=$(UV_VERSION) sh
 	uv python pin ${PYTHON_VERSION}
 

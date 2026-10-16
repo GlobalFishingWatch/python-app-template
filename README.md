@@ -46,13 +46,13 @@ A template for Python applications.
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
 
 [cli/main.py]: src/python_app_template/cli/main.py
- 
+
 
 [.github/]: .github/
 [cloudbuild/]: cloudbuild/
 [docs/]: docs/
 [notebooks/]: notebooks/
-[src/python_app_template/]: src/python_app_template 
+[src/python_app_template/]: src/python_app_template
 [src/python_app_template/assets/]: src/python_app_template/assets/
 [tests/]: tests/
 
@@ -94,7 +94,7 @@ Goals of this template include:
 * Minimizing the effort required to transition prototypes to production.
 * Establishing consistent development standards across projects.
 
-## Usage 
+## Usage
 
 _Write the relevant documentation on how to use this application here.
 Ideally, organize it into sections_.
@@ -131,7 +131,7 @@ and incrementally builds upon the requirements of the previous stages.
 2. 🛠️ **Prototype**  
    - Set up [branch protection rules] for `main` branch (and `develop` if exists).
      - ☑️ Restrict deletions.
-     - ☑️ Require a pull request before merging. 
+     - ☑️ Require a pull request before merging.
        - ☑️ Require approvals.
        - ☑️ Require conversation resolution before merging.
      - ☑️ Require status checks to pass. Add GitHub actions to checks.

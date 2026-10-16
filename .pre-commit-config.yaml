@@ -15,6 +15,7 @@ repos:
     args: [--pytest-test-first]
   - id: mixed-line-ending
   - id: trailing-whitespace
+    args: [--markdown-linebreak-ext=md]
 
 - repo: local
   hooks:
