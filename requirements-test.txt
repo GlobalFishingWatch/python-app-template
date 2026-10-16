@@ -2,7 +2,7 @@
 #    uv pip compile --group test -c requirements.txt -o requirements-test.txt pyproject.toml
 coverage==7.16.2
     # via pytest-cov
-gfw-common==0.20.2
+gfw-common==0.20.3
     # via
     #   -c requirements.txt
     #   python-app-template (pyproject.toml)
