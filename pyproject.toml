@@ -65,6 +65,15 @@ build = [
   "twine~=6.1",             # For uploading Python packages to PyPI.
 ]
 
+# Test dependencies (PEP 735). Not published with the package: the test Docker image installs
+# them, compiled into requirements-test.txt, on top of the production image.
+[dependency-groups]
+test = [
+  "pytest~=9.0",             # Core testing framework.
+  "pytest-cov~=7.0",         # Coverage plugin for pytest.
+  "pytest-mock~=3.14",       # Mocking plugin for pytest.
+]
+
 [tool.ruff]
 fix = true
 line-length = 99

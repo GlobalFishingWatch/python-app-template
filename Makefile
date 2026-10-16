@@ -2,6 +2,7 @@
 
 VENV_NAME:=.venv
 REQS_PROD:=requirements.txt
+REQS_TEST:=requirements-test.txt
 SETUP_FILE:=pyproject.toml
 SOURCES = src
 
@@ -12,6 +13,9 @@ DOCKER_TEST_SERVICE:=test
 
 GCP_PROJECT:=world-fishing-827
 GCP_DOCKER_VOLUME:=gcp
+
+# Run as the host user so files written into the mounted repo aren't owned by root.
+DOCKER_AS_USER:=--user $(shell id -u):$(shell id -g) -e UV_CACHE_DIR=/tmp/uv-cache
 
 PYTHON_VERSION:=3.12
 UV_VERSION := 0.10.9
@@ -48,15 +52,17 @@ docker-test:
 docker-shell: docker-volume
 	docker compose run --rm -it ${DOCKER_DEV_SERVICE}
 
-.PHONY: reqs  ## Compiles requirements.txt with uv.
+.PHONY: reqs  ## Compiles requirements.txt and requirements-test.txt with uv.
 reqs:
-	docker compose run --rm ${DOCKER_DEV_NO_GCP_SERVICE} -c \
-		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -v'
+	docker compose run --rm ${DOCKER_AS_USER} ${DOCKER_DEV_NO_GCP_SERVICE} -c \
+		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -v && \
+		${PIP_COMPILE} --group test -c ${REQS_PROD} -o ${REQS_TEST} ${SETUP_FILE} -v'
 
-.PHONY: reqs-upgrade  ## Upgrades requirements.txt with uv.
+.PHONY: reqs-upgrade  ## Upgrades requirements.txt and requirements-test.txt with uv.
 reqs-upgrade:
-	docker compose run --rm ${DOCKER_DEV_NO_GCP_SERVICE} -c \
-		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -U -v'
+	docker compose run --rm ${DOCKER_AS_USER} ${DOCKER_DEV_NO_GCP_SERVICE} -c \
+		'${PIP_COMPILE} -o ${REQS_PROD} ${SETUP_FILE} -U -v && \
+		${PIP_COMPILE} --group test -c ${REQS_PROD} -o ${REQS_TEST} ${SETUP_FILE} -U -v'
 
 # ---------------------
 # VIRTUAL ENVIRONMENT

@@ -122,7 +122,8 @@ and incrementally builds upon the requirements of the previous stages.
 1. 💡 **Proof of Concept**  
    - Update the project's name with `python init_project.py my-project-name`.
    - Declare required dependencies in [pyproject.toml].
-     Use the `dev` extra for development-only dependencies.
+     Use the `dev` extra for development-only dependencies,
+     and the `test` dependency group for test dependencies.
    - Store data files (e.g., `.txt`, `.json`, `.csv`) in the `src/my_project_name/assets/` directory.
    - Add the following sections to the `README.md`:  
      - **Introduction**  
@@ -170,7 +171,7 @@ This is a brief summary of all the relevant directories of the repository.
 | Directory                       | Description                                                                     |
 | ------------------------------- | ------------------------------------------------------------------------------- |
 |[.github/]                       | Configuration for GitHub actions.                                               |
-|[cloudbuild/]                    | Terraform config for the Cloud Build triggers that publish the Docker image.    |
+|[cloudbuild/]                    | Terraform config for the Cloud Build triggers.                                  |
 |[docs/]                          | Markdown files with detailed documentation.                                     |
 |[notebooks/]                     | All jupyter notebooks go here.                                                  |
 |[src/python_app_template/]       | All source code go here.                                                        |
@@ -202,7 +203,7 @@ This is a brief summary of all the relevant files of the repository.
 |[MANIFEST.in]                   | Set of patterns to include or exclude files from installed package.             |
 |[pyproject.toml]                | Modern Python packaging configuration file.                                     |
 |[requirements.txt]              | Full set of compiled production dependencies (pinned to specific versions).     |
-|[requirements-test.txt]         | High level test dependencies needed to test the installed package.              |
+|[requirements-test.txt]         | Compiled test dependencies, installed on top of the production image to test it.|
 |[README.md]                     | This file.                                                                      |
 |[setup.py]                      | Legacy Python packaging config file, kept for compatibility with [Apache Beam]. |
 

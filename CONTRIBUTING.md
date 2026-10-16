@@ -16,6 +16,7 @@
 [docker official instructions]: https://docs.docker.com/engine/install/
 [docker compose]: https://docs.docker.com/compose/install/linux/
 [uv]: https://docs.astral.sh/uv/
+[dependency group]: https://packaging.python.org/en/latest/specifications/dependency-groups/
 
 <div align="justify">
 
@@ -120,21 +121,28 @@ is automatically generated with `uv pip compile`, based on the dependencies spec
 `pyproject.toml`. This process ensures reproducibility, allowing the application to run
 consistently across different environments.
 
+`requirements-test.txt` does the same for the test dependencies, declared in the `test`
+[dependency group] of `pyproject.toml`. It is compiled against the pins in `requirements.txt`,
+so the test image can install just the test dependencies on top of the production image
+and test the package exactly as it is deployed.
+
 Use `pyproject.toml` to define high-level dependencies with flexible version constraints
 (e.g., `~=1.2`, `>=1.0`, `<2.0`, ...).
+`make reqs-upgrade` upgrades within those constraints;
+a new major version (e.g. `~=8.3` to `~=9.0`) is a deliberate change in `pyproject.toml`.
 
 Every repository's `Makefile` is self-documenting -- run `make help` (or bare `make`) to
 see its exact current targets and descriptions. The typical names are:
 
 ```shell
-make reqs           # re-compile requirements.txt
+make reqs           # re-compile requirements.txt and requirements-test.txt
 make reqs-upgrade   # upgrade all dependencies to their latest compatible versions
 ```
 
 </div>
 
 > [!IMPORTANT]
-> Do not modify `requirements.txt` manually.
+> Do not modify `requirements.txt` or `requirements-test.txt` manually.
 
 > [!NOTE]
 > After changing `requirements.txt`, rebuild the docker image (`make docker-build`)
