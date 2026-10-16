@@ -46,6 +46,11 @@ A template for Python applications.
 [used by pytest-cov]: https://pytest-cov.readthedocs.io/en/latest/config.html
 
 [cli/main.py]: src/python_app_template/cli/main.py
+[cli/commands/]: src/python_app_template/cli/commands/
+[pipelines/]: src/python_app_template/pipelines/
+[config/]: config/
+[config/hello/sample.yaml]: config/hello/sample.yaml
+[gfw-common]: https://github.com/GlobalFishingWatch/gfw-common
 
 
 [.github/]: .github/
@@ -172,6 +177,7 @@ This is a brief summary of all the relevant directories of the repository.
 | ------------------------------- | ------------------------------------------------------------------------------- |
 |[.github/]                       | Configuration for GitHub actions.                                               |
 |[cloudbuild/]                    | Terraform config for the Cloud Build triggers.                                  |
+|[config/]                        | Example configuration files for the CLI commands.                               |
 |[docs/]                          | Markdown files with detailed documentation.                                     |
 |[notebooks/]                     | All jupyter notebooks go here.                                                  |
 |[src/python_app_template/]       | All source code go here.                                                        |
@@ -213,12 +219,35 @@ This is a brief summary of all the relevant files of the repository.
 
 ### Using the CLI
 
-_Write instructions on how to use the CLI of the application here._
+_Write instructions on how to use the CLI of the application here.
+The template ships an example `hello` command built on [gfw-common]'s CLI:
+replace it with your own commands._
+
+Run `python-app-template -h` for the list of commands,
+or `python-app-template <command> -h` for a command's own options. For example:
+
+```shell
+python-app-template hello --name GFW --times 2 --labels environment=development
+```
+
+Every command also accepts a configuration file (`-c/--config-file`).
+Command-line arguments take precedence over the configuration file,
+and the configuration file over the command's defaults.
 
 #### Config file example
 
 _**Optional**_.
 _Provide an example of an input configuration file._
+
+Example ([config/hello/sample.yaml]):
+```yaml
+name: GFW
+times: 2
+
+# Labels for cost tracking (label values: lowercase letters, digits, '_' and '-').
+labels:
+  environment: development
+```
 
 ## Output schema
 
@@ -259,7 +288,9 @@ Example:
 
 | Module | Description |
 | --- | --- |
-| [cli/main.py] | Defines the application CLI. |
+| [cli/main.py] | Defines the application CLI and registers its commands. |
+| [cli/commands/] | One module per command: its name, description and options. Delegates to its pipeline. |
+| [pipelines/] | One package per command: its configuration (`config.py`) and its logic (`run()` in `main.py`). |
 
 </div>
 
