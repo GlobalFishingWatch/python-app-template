@@ -8,9 +8,8 @@ from gfw.common.config import PipelineConfig
 ERROR_TIMES = "times must be at least 1. Got: {}."
 
 
-# gfw-common doesn't ship a py.typed marker, so mypy sees its classes as Any.
 @dataclass(frozen=True, kw_only=True)
-class HelloConfig(PipelineConfig):  # type: ignore[misc]
+class HelloConfig(PipelineConfig):
     """Configuration of the hello command.
 
     Inherits the settings every pipeline has, like its ``labels``,

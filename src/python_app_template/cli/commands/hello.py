@@ -19,8 +19,7 @@ HELP_NAME = "Who to greet."
 HELP_TIMES = "How many times to greet."
 
 
-# gfw-common doesn't ship a py.typed marker, so mypy sees its classes as Any.
-class Hello(Command):  # type: ignore[misc]
+class Hello(Command):
     """Greets someone a number of times."""
 
     @property
