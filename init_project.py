@@ -12,7 +12,8 @@ CONTRIBUTING_GUIDE_URL = (
 )
 
 FILES_TO_UPDATE = (
-    "cloudbuild.yaml",
+    "cloudbuild/backend.tf",
+    "cloudbuild/main.tf",
     "docker-compose.yml",
     "Makefile",
     "pyproject.toml",

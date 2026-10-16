@@ -50,6 +50,7 @@ A template for Python applications.
  
 
 [.github/]: .github/
+[cloudbuild/]: cloudbuild/
 [docs/]: docs/
 [notebooks/]: notebooks/
 [src/python_app_template/]: src/python_app_template 
@@ -61,7 +62,6 @@ A template for Python applications.
 [.gitignore]: .gitignore
 [.pre-commit-config.yaml]: .pre-commit-config.yaml
 [activate-venv.sh]: activate-venv.sh
-[cloudbuild.yaml]: cloudbuild.yaml
 [codecov.yml]: codecov.yml
 [CONTRIBUTING.md]: CONTRIBUTING.md
 [contributing guide]: https://github.com/GlobalFishingWatch/python-app-template/blob/main/CONTRIBUTING.md
@@ -141,7 +141,8 @@ and incrementally builds upon the requirements of the previous stages.
      - ☑️ Block force pushes.
      - ☑️ Allowed merge methods: only Merge.
    - Select a [Git Workflow] to maintain consistent branching and collaboration practices.
-   - Set up Google Cloud Build triggers to automatically publish the Docker image upon merges.
+   - Create the Google Cloud Build triggers that publish the Docker image upon merges and tags:
+     run `terraform init` and `terraform apply` in [cloudbuild/].
    - Re-compile `requirements.txt` for Docker using:
      ```
      make reqs
@@ -171,6 +172,7 @@ This is a brief summary of all the relevant directories of the repository.
 | Directory                       | Description                                                                     |
 | ------------------------------- | ------------------------------------------------------------------------------- |
 |[.github/]                       | Configuration for GitHub actions.                                               |
+|[cloudbuild/]                    | Terraform config for the Cloud Build triggers that publish the Docker image.    |
 |[docs/]                          | Markdown files with detailed documentation.                                     |
 |[notebooks/]                     | All jupyter notebooks go here.                                                  |
 |[src/python_app_template/]       | All source code go here.                                                        |
@@ -192,7 +194,6 @@ This is a brief summary of all the relevant files of the repository.
 |[.gitignore]                    | List of files and directories to be ignored by git.                             |
 |[.pre-commit-config.yaml]       | Configuration to automate software quality checks.                              |
 |[activate-venv.sh]              | Simple shortcut to enter virtual environment.                                   |
-|[cloudbuild.yaml]               | Configuration to build and publish docker images in Google Cloud.               |
 |[codecov.yml]                   | Configuration for [codecov] GitHub integration.                                 |
 |[CONTRIBUTING.md]               | Contributing guide shared by all projects created from this template.           |
 |[docker-compose.yml]            | Configuration for [docker compose].                                             |

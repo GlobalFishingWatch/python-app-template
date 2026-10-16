@@ -195,4 +195,6 @@ cases:
 - A commit is merged into `main` (or `develop`, for repositories using Git Flow).
 - A new tag is created.
 
+The triggers are defined with Terraform in the repository's `cloudbuild/` directory.
+
 </div>
