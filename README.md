@@ -1,8 +1,8 @@
 <h1 align="center" style="border-bottom: none;">  python-app-template </h1>
 
 <p align="center">
-  <a href="https://github.com/GlobalFishingWatch/python-app-template/actions/workflows/main.yaml" >
-    <img src="https://github.com/GlobalFishingWatch/python-app-template/actions/workflows/main.yaml/badge.svg"/>
+  <a href="https://github.com/GlobalFishingWatch/python-app-template/actions/workflows/ci.yaml" >
+    <img src="https://github.com/GlobalFishingWatch/python-app-template/actions/workflows/ci.yaml/badge.svg"/>
   </a>
   <a href="https://codecov.io/gh/GlobalFishingWatch/python-app-template" >
     <img src="https://codecov.io/gh/GlobalFishingWatch/python-app-template/graph/badge.svg?token=uZTb6EphP8"/>
