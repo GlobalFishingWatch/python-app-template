@@ -75,7 +75,6 @@ A template for Python applications.
 [init_project.py]: init_project.py
 [LICENSE]: LICENSE
 [Makefile]: Makefile
-[MANIFEST.in]: MANIFEST.in
 [pyproject.toml]: pyproject.toml
 [README.md]: README.md
 [requirements.txt]: requirements.txt
@@ -206,7 +205,6 @@ This is a brief summary of all the relevant files of the repository.
 |[init_project.py]               | Automates changing the project name across relevant files and directories.      |
 |[LICENSE]                       | The software license.                                                           |
 |[Makefile]                      | Set of commands to simplify development.                                        |
-|[MANIFEST.in]                   | Set of patterns to include or exclude files from installed package.             |
 |[pyproject.toml]                | Modern Python packaging configuration file.                                     |
 |[requirements.txt]              | Full set of compiled production dependencies (pinned to specific versions).     |
 |[requirements-test.txt]         | Compiled test dependencies, installed on top of the production image to test it.|

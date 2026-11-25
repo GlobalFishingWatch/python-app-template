@@ -8,7 +8,11 @@ exclude = ["tests*"]
 namespaces = false
 
 [tool.setuptools.package-data]
-"assets" = ["*"]
+"python_app_template" = ["assets/**/*"]
+
+# Keep stray bytecode in assets/ out of the wheel.
+[tool.setuptools.exclude-package-data]
+"*" = ["__pycache__", "*.py[cod]"]
 
 [project]
 name = "python-app-template"
@@ -42,7 +46,10 @@ Issues = "https://github.com/GlobalFishingWatch/python-app-template/issues"
 [project.scripts]
 python-app-template = "python_app_template.cli.main:main"
 
-[project.optional-dependencies]
+# Development dependencies (PEP 735). Not published with the package, and installed on their own,
+# without the project dependencies. The test group is compiled into requirements-test.txt for the
+# test Docker image, which installs it on top of the production image.
+[dependency-groups]
 # Linting and code quality tools
 lint = [
   "black~=25.1",               # Code formatting tool.
@@ -67,9 +74,7 @@ build = [
   "twine~=6.1",             # For uploading Python packages to PyPI.
 ]
 
-# Test dependencies (PEP 735). Not published with the package: the test Docker image installs
-# them, compiled into requirements-test.txt, on top of the production image.
-[dependency-groups]
+# Test dependencies
 test = [
   "pytest~=9.0",             # Core testing framework.
   "pytest-cov~=7.0",         # Coverage plugin for pytest.
