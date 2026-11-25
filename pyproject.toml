@@ -10,6 +10,10 @@ namespaces = false
 [tool.setuptools.package-data]
 "python_app_template" = ["assets/**/*"]
 
+# Keep stray bytecode in assets/ out of the wheel.
+[tool.setuptools.exclude-package-data]
+"*" = ["__pycache__", "*.py[cod]"]
+
 [project]
 name = "python-app-template"
 version = "0.2.2"
