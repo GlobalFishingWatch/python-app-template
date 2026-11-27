@@ -87,6 +87,8 @@ jobs:
         # does not touch the requirements reuses the layers of the dependencies.
         uses: docker/bake-action@v6
         with:
+          # bake-action builds from the Git context by default, which ignores the .dockerignore.
+          source: .
           files: docker-compose.yml
           targets: test
           load: true
